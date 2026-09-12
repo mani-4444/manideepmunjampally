@@ -86,23 +86,7 @@ export function Navbar() {
           </a>
         </div>
 
-        {/* Direct GitHub & LinkedIn Pill Links */}
-        <a
-          href="https://github.com/mani-4444"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden xl:inline-flex text-[11px] font-montserrat uppercase tracking-wider text-neutral-300 hover:text-white border border-white/20 hover:border-white/50 px-3 py-1 rounded-full transition-all"
-        >
-          GITHUB
-        </a>
-        <a
-          href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden lg:inline-flex text-[11px] font-montserrat uppercase tracking-wider text-neutral-300 hover:text-white border border-white/20 hover:border-white/50 px-3 py-1 rounded-full transition-all"
-        >
-          LINKEDIN
-        </a>
+
       </nav>
 
       {/* Top Right "LET'S TALK" Pill Button */}

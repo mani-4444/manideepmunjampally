@@ -25,34 +25,47 @@ export function Achievements() {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          {/* Card 1: HackWithAI Finalist */}
+          {/* Card 1: Rapid Hackathon Product Delivery */}
           <div className="border border-white/10 bg-[#080808] p-8 rounded-2xl space-y-6 hover:border-white/25 transition-all">
             <div className="flex items-start justify-between">
               <div className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
                 <Trophy className="w-6 h-6 text-white" />
               </div>
               <span className="text-xs font-mono px-3 py-1 rounded-full border border-white/15 bg-white/5 text-neutral-300">
-                Hackathon Honor
+                Hackathon Engineering
               </span>
             </div>
 
             <div>
               <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
-                HackWithAI Finalist
+                Rapid Hackathon Product Delivery
               </h3>
               <div className="text-xs font-mono text-neutral-400 mt-1">
-                National Level AI Hackathon
+                Multi-Hackathon Contender · 24–36h High-Pressure Sprints
               </div>
             </div>
 
             <p className="font-open-sans text-sm text-neutral-300 leading-relaxed">
-              Selected as a finalist at HackWithAI for architecting innovative, deployable
-              generative AI solutions under intense time and operational constraints.
+              Competed across multiple competitive hackathons, transforming open-ended problem statements
+              into functional, production-ready systems within strict 24–36 hour constraints. Spearheaded
+              core backend architecture, real-time multi-agent and voice pipelines (including KrishiCFO and JARVIS),
+              and delivered high-stakes live jury demos.
             </p>
 
-            <div className="pt-2 text-xs font-open-sans text-neutral-400 flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-white" />
-              <span>Competitive finalist selection</span>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {[
+                "Rapid Prototyping",
+                "24–36h Sprints",
+                "Zero-to-One Delivery",
+                "Live Pitch Leader",
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs font-mono px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
 

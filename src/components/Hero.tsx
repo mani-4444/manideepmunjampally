@@ -25,9 +25,12 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Top Eyebrow */}
-            <div className="text-xs font-montserrat tracking-[0.25em] text-neutral-400 uppercase">
-              FULL-STACK DEVELOPER &amp; AI SYSTEMS ARCHITECT
+            {/* Top Eyebrow - Highlighted Badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/25 bg-white/10 backdrop-blur-md shadow-[0_0_25px_rgba(255,255,255,0.15)] w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.9)]" />
+              <span className="text-[11px] sm:text-xs font-montserrat font-bold tracking-[0.22em] text-white uppercase">
+                FULL-STACK DEVELOPER &amp; AI SYSTEMS ARCHITECT
+              </span>
             </div>
 
             {/* Main Headline */}

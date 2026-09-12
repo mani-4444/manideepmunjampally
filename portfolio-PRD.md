@@ -58,14 +58,14 @@ scattered fade-up-on-scroll on every section.
 5. **Certifications** — Programming with Generative AI, NPTEL (Completed).
    AI & Machine Learning, Apna College (Ongoing).
 
-6. **Achievements** — HackWithAI hackathon finalist. 200+ DSA problems
+6. **Achievements** — Rapid hackathon product delivery under tight time constraints (24–36h sprints, KrishiCFO, JARVIS). 200+ DSA problems
    in C++ (leetcode.com/Yo7vJoRqBP); DP, Game Theory, Divide and Conquer.
 
 7. **Outside of Code** — low-emphasis, near the bottom. Cricket content creation
-   ('Strategic Timeout'): founded, manages, and edits the channel. 2,000+
-   Instagram followers, 2,700+ YouTube subscribers, built using Adobe Premiere
-   Pro and After Effects. Framed as audience-building and production discipline,
-   not a fan feature.
+   ('Strategic Timeout'): creator, host, and editor. 2,700+ YouTube subscribers,
+   2,000+ Instagram followers. Built through compelling on-camera communication
+   and narrative storytelling, backed by video editing in Adobe Premiere Pro.
+   Framed as communication, audience-building, and production discipline.
    Links: https://www.youtube.com/@StrategicTimeoutOfficial
           https://www.instagram.com/strategic_timeout_official/
 
