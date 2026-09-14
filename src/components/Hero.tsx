@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { SplineScene } from "@/components/ui/splite";
+import Image from "next/image";
 import { Spotlight } from "@/components/ui/spotlight";
 
 export function Hero() {
@@ -97,22 +97,37 @@ export function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Column: Live Interactive 3D Spline Scene */}
+          {/* Right Column: Focused Highlighted Portrait */}
           <motion.div 
-            className="lg:col-span-6 relative flex items-center justify-center min-h-[420px] sm:min-h-[500px] lg:min-h-[580px]"
-            initial={{ opacity: 0, scale: 0.96 }}
+            className="lg:col-span-6 relative flex items-center justify-center py-6 lg:py-0"
+            initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative w-full h-[420px] sm:h-[500px] lg:h-[580px]">
-              {/* Subtle ambient light gradient behind 3D model */}
-              <div className="absolute inset-0 bg-white/[0.02] rounded-full filter blur-3xl pointer-events-none" />
-              
-              {/* Spline 3D Scene */}
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full"
-              />
+            <div className="relative group">
+              {/* Soft luminous radial aura glow */}
+              <div className="absolute inset-0 rounded-full bg-white/20 blur-3xl scale-110 pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+
+              {/* Luminous Gradient Outline Ring */}
+              <div className="relative p-1.5 sm:p-2 rounded-full bg-gradient-to-b from-white via-neutral-300 to-neutral-700 shadow-[0_0_50px_rgba(255,255,255,0.25)]">
+                {/* Portrait Frame with solid black background */}
+                <div className="relative w-64 h-64 sm:w-76 sm:h-76 md:w-84 md:h-84 lg:w-[350px] lg:h-[350px] xl:w-[390px] xl:h-[390px] rounded-full overflow-hidden border-2 border-black bg-black">
+                  <Image
+                    src="/images/manideep.png"
+                    alt="Manideep Munjampally portrait"
+                    fill
+                    sizes="(max-width: 640px) 256px, (max-width: 768px) 304px, (max-width: 1024px) 350px, 390px"
+                    className="object-cover object-top scale-105 grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-110"
+                    priority
+                  />
+                </div>
+              </div>
+
+              {/* Floating Identity & Location Pill */}
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-md text-xs font-mono text-neutral-300 shadow-xl flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Hyderabad, IN · CBIT CSE</span>
+              </div>
             </div>
           </motion.div>
 

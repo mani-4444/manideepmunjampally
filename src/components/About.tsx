@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { GraduationCap, Code2, Sparkles, MapPin } from "lucide-react";
 
 export function About() {
@@ -24,66 +23,41 @@ export function About() {
           </p>
         </div>
 
-        {/* Big Highlighted Profile Card */}
-        <div className="border border-white/15 bg-gradient-to-b from-[#0e0e0e] to-[#060606] p-8 sm:p-12 rounded-2xl mb-12 hover:border-white/25 transition-all shadow-2xl relative overflow-hidden">
-          {/* Subtle ambient light splash behind the card */}
+        {/* Highlights & Engineering Summary Ribbon */}
+        <div className="border border-white/15 bg-gradient-to-b from-[#0e0e0e] to-[#060606] p-8 sm:p-10 rounded-2xl mb-12 hover:border-white/25 transition-all shadow-2xl relative overflow-hidden">
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/[0.04] rounded-full filter blur-3xl pointer-events-none" />
 
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-14 relative z-10">
-            
-            {/* Focused Highlighted Portrait */}
-            <div className="relative shrink-0 group">
-              {/* Soft luminous radial aura glow */}
-              <div className="absolute inset-0 rounded-full bg-white/25 blur-2xl scale-110 pointer-events-none group-hover:scale-120 transition-transform duration-500" />
-
-              {/* Luminous Gradient Outline Ring */}
-              <div className="relative p-1.5 rounded-full bg-gradient-to-b from-white via-neutral-300 to-neutral-700 shadow-[0_0_45px_rgba(255,255,255,0.35)]">
-                {/* Portrait Frame with solid black background */}
-                <div className="relative w-56 h-56 sm:w-68 sm:h-68 md:w-76 md:h-76 lg:w-80 lg:h-80 xl:w-[340px] xl:h-[340px] rounded-full overflow-hidden border-2 border-black bg-black">
-                  <Image
-                    src="/images/manideep.png"
-                    alt="Manideep Munjampally portrait"
-                    fill
-                    sizes="(max-width: 640px) 224px, (max-width: 768px) 272px, (max-width: 1024px) 320px, 340px"
-                    className="object-cover object-top scale-105 grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-110"
-                    priority
-                  />
-                </div>
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+            <div className="space-y-3 max-w-2xl">
+              <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+                <MapPin className="w-3.5 h-3.5 text-neutral-400" />
+                <span>Hyderabad, India · Computer Science @ CBIT</span>
               </div>
-            </div>
-
-            {/* Profile Information & Credentials */}
-            <div className="flex-1 text-center lg:text-left space-y-5">
-              <div>
-                <h3 className="font-montserrat text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                  Manideep Munjampally
-                </h3>
-                <p className="font-open-sans text-sm sm:text-base text-neutral-400 mt-1.5 flex items-center justify-center lg:justify-start gap-2">
-                  <MapPin className="w-4 h-4 text-neutral-400" />
-                  <span>Hyderabad, India · Computer Science @ CBIT</span>
-                </p>
-              </div>
-
-              <p className="font-open-sans text-sm sm:text-base text-neutral-300 leading-relaxed max-w-2xl">
-                Specializing in full-stack architecture and multi-tier generative AI systems.
-                Combines high academic rigor (9.74 CGPA) with competitive algorithmic depth
-                (200+ DSA problems in C++) and deployed production web applications.
+              <h3 className="font-montserrat text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Architectural Depth &amp; Deployed Products
+              </h3>
+              <p className="font-open-sans text-sm sm:text-base text-neutral-300 leading-relaxed">
+                Specializing in production full-stack systems and multi-tier generative AI pipelines.
+                Combines high academic rigor (9.74 CGPA) with competitive algorithmic mastery
+                (200+ DSA problems in C++) and reliable, deployed applications.
               </p>
-
-              {/* Status & Credential Pills */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-                <span className="text-xs sm:text-sm font-mono px-4 py-2 rounded-full bg-white text-black font-bold shadow-lg">
-                  CGPA: 9.74 / 10.00
-                </span>
-                <span className="text-xs sm:text-sm font-mono px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white font-medium">
-                  DSA: 200+ Solved (C++)
-                </span>
-                <span className="text-xs sm:text-sm font-mono px-4 py-2 rounded-full bg-white/5 border border-white/10 text-neutral-300">
-                  Full-Stack &amp; Local LLMs
-                </span>
-              </div>
             </div>
 
+            {/* Credential Badges Column */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+              <div className="px-5 py-3 rounded-xl bg-white text-black font-mono text-xs font-bold shadow-lg flex items-center justify-between gap-4">
+                <span className="uppercase tracking-wider">ACADEMIC CGPA</span>
+                <span className="text-sm">9.74 / 10.00</span>
+              </div>
+              <div className="px-5 py-3 rounded-xl bg-white/10 border border-white/20 text-white font-mono text-xs font-medium flex items-center justify-between gap-4">
+                <span className="uppercase tracking-wider">ALGORITHMS (C++)</span>
+                <span className="text-sm font-bold">200+ Solved</span>
+              </div>
+              <div className="px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-neutral-300 font-mono text-xs flex items-center justify-between gap-4">
+                <span className="uppercase tracking-wider">CORE FOCUS</span>
+                <span className="text-white font-medium">Full-Stack &amp; LLMs</span>
+              </div>
+            </div>
           </div>
         </div>
 
