@@ -1,44 +1,82 @@
 "use client";
 
-import React from "react";
-import { Terminal, Brain, Database, Layout, Wrench, Sparkles } from "lucide-react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
+import { Terminal, Brain, Database, Layout, Wrench, Sparkles, Palette } from "lucide-react";
 import { SplineScene } from "@/components/ui/splite";
 
 export function Skills() {
-  const skillCategories = [
-    {
-      category: "AI & Generative AI",
-      icon: Brain,
-      highlight: true,
-      skills: ["LLMs", "Prompt Engineering", "Gemini", "Groq", "Ollama", "Claude AI"],
-    },
-    {
-      category: "Languages",
-      icon: Terminal,
-      skills: ["C++", "Python", "TypeScript", "SQL"],
-    },
-    {
-      category: "Backend & Data",
-      icon: Database,
-      skills: ["FastAPI", "REST APIs", "Supabase", "MySQL"],
-    },
-    {
-      category: "Web Frontend",
-      icon: Layout,
-      skills: ["React", "Next.js", "Tailwind CSS"],
-    },
-    {
-      category: "Tools & Workflow",
-      icon: Wrench,
-      skills: ["Git", "GitHub", "Vercel"],
-    },
+  const sectionRef = useRef<HTMLElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Scroll-based reactive orientation
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Subtle natural orientation in the direction of scroll movement
+  const rotateY = useTransform(scrollYProgress, [0, 0.5, 1], [-7, 0, 7]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.5, 1], [3, 0, -3]);
+  const translateY = useTransform(scrollYProgress, [0, 0.5, 1], [15, 0, -15]);
+
+  // Smooth interpolated spring physics
+  const smoothRotateY = useSpring(rotateY, { stiffness: 60, damping: 20 });
+  const smoothRotateX = useSpring(rotateX, { stiffness: 60, damping: 20 });
+  const smoothTranslateY = useSpring(translateY, { stiffness: 60, damping: 20 });
+
+  const aiSkills = [
+    "LLMs",
+    "Prompt Engineering",
+    "ChatGPT",
+    "Ollama",
+    "Antigravity",
+    "Claude AI",
+  ];
+
+  const creativeSkills = [
+    "Adobe Premiere Pro",
+    "Adobe After Effects",
+  ];
+
+  const languageSkills = [
+    "C++",
+    "Python",
+    "TypeScript",
+    "SQL",
+  ];
+
+  const backendSkills = [
+    "FastAPI",
+    "REST APIs",
+    "Supabase",
+    "MySQL",
+  ];
+
+  const webSkills = [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+  ];
+
+  const toolSkills = [
+    "Git",
+    "GitHub",
+    "Vercel",
   ];
 
   return (
-    <section id="skills" className="py-24 bg-black border-t border-white/10 text-white scroll-mt-16">
-      <div className="max-w-7xl mx-auto px-6">
+    <section 
+      ref={sectionRef} 
+      id="skills" 
+      className="py-28 bg-black bg-wireframe-grid border-t border-white/10 text-white scroll-mt-16 overflow-hidden relative"
+    >
+      {/* Background subtle radial ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full filter blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <div className="mb-16 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div className="mb-14 border-b border-white/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <div className="text-xs font-montserrat tracking-[0.25em] text-neutral-400 uppercase mb-2">
               04 // CAPABILITIES
@@ -48,87 +86,231 @@ export function Skills() {
             </h2>
           </div>
           <p className="font-open-sans text-sm text-neutral-400 max-w-md leading-relaxed">
-            Proficiencies across algorithmic programming, multi-model generative AI integration,
-            and production full-stack engineering.
+            Proficiencies across multi-model generative AI architectures, algorithmic programming,
+            and production full-stack systems.
           </p>
         </div>
 
-        {/* 12-Column Layout: Interactive 3D Robot + Skill Stack Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
-          {/* Left Column: Interactive 3D Spline Robot */}
-          <div className="lg:col-span-5 border border-white/10 bg-[#080808] p-6 rounded-2xl flex flex-col justify-between hover:border-white/25 transition-all shadow-2xl relative overflow-hidden min-h-[440px] lg:min-h-[520px]">
-            {/* Ambient Lighting */}
-            <div className="absolute inset-0 bg-white/[0.02] rounded-full filter blur-3xl pointer-events-none" />
+        {/* Balanced 3-Column Layout: Left (AI + Creative) / Center (Robot 40-45%) / Right (Engineering + Tools) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
-            {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-3 relative z-10">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-white" />
-                <span className="font-montserrat text-xs font-bold tracking-wider text-white uppercase">
-                  Agentic AI Visualizer
+          {/* LEFT SIDE — AI & INTELLIGENCE + CREATIVE (lg:col-span-3) */}
+          <div className="lg:col-span-3 flex flex-col gap-5 order-2 lg:order-1">
+            {/* Group: AI & GENERATIVE AI */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="border border-white/15 bg-gradient-to-b from-[#0e0e0e] to-[#060606] p-5 rounded-2xl space-y-3.5 hover:border-white/25 transition-all shadow-xl"
+            >
+              <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+                <div className="flex items-center gap-2">
+                  <Brain className="w-3.5 h-3.5 text-white" />
+                  <span className="font-montserrat text-xs font-bold tracking-wider text-white uppercase">
+                    AI &amp; Generative AI
+                  </span>
+                </div>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                {aiSkills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-default select-none"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Group: CREATIVE TOOLS (Positioned lower-left) */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="border border-white/10 bg-[#080808] p-5 rounded-2xl space-y-3 hover:border-white/20 transition-all shadow-lg"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 pb-2.5">
+                <Palette className="w-3.5 h-3.5 text-neutral-400" />
+                <span className="font-montserrat text-xs font-bold tracking-wider text-neutral-400 uppercase">
+                  Creative Tools
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-neutral-400 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/10">
-                Spline 3D Scene
-              </span>
+
+              <div className="flex flex-wrap gap-2 pt-1">
+                {creativeSkills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-default select-none"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* CENTER — INTERACTIVE SPLINE 3D ROBOT (~40-45% width, lg:col-span-6) */}
+          <div className="lg:col-span-6 flex flex-col items-center justify-center order-1 lg:order-2 py-4 lg:py-0">
+            {/* Top Label */}
+            <div className="mb-4">
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-md shadow-lg">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[11px] sm:text-xs font-montserrat font-bold tracking-[0.22em] text-white uppercase">
+                  AGENTIC AI VISUALIZER
+                </span>
+              </div>
             </div>
 
-            {/* Spline 3D Scene Canvas */}
-            <div className="relative flex-grow flex items-center justify-center my-4 min-h-[300px] sm:min-h-[340px] z-10">
-              <SplineScene
-                scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                className="w-full h-full min-h-[300px] sm:min-h-[340px]"
-              />
+            {/* Central Showcase Stage with Scroll-Reactive 3D Transform */}
+            <div className="w-full relative rounded-3xl border border-white/15 bg-gradient-to-b from-[#0c0c0c] via-[#080808] to-black p-4 sm:p-6 shadow-[0_0_60px_rgba(0,0,0,0.8)] overflow-hidden">
+              {/* Subtle ambient light gradient behind 3D model */}
+              <div className="absolute inset-0 bg-white/[0.025] rounded-full filter blur-3xl pointer-events-none" />
+
+              {/* Technical corner crosshairs */}
+              <div className="absolute top-3 left-3 text-[10px] font-mono text-neutral-700 select-none">+</div>
+              <div className="absolute top-3 right-3 text-[10px] font-mono text-neutral-700 select-none">+</div>
+              <div className="absolute bottom-3 left-3 text-[10px] font-mono text-neutral-700 select-none">+</div>
+              <div className="absolute bottom-3 right-3 text-[10px] font-mono text-neutral-700 select-none">+</div>
+
+              {/* Motion-interpolated container responding to scroll */}
+              <motion.div
+                style={{
+                  rotateY: shouldReduceMotion ? 0 : smoothRotateY,
+                  rotateX: shouldReduceMotion ? 0 : smoothRotateX,
+                  y: shouldReduceMotion ? 0 : smoothTranslateY,
+                  transformPerspective: 1000,
+                }}
+                className="relative w-full h-[360px] sm:h-[440px] md:h-[480px] lg:h-[520px] flex items-center justify-center"
+              >
+                <SplineScene
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                  className="w-full h-full"
+                />
+              </motion.div>
             </div>
 
-            {/* Bottom Caption Bar */}
-            <div className="px-4 py-2.5 rounded-lg bg-white/[0.03] border border-white/10 text-[11px] font-mono text-neutral-400 flex items-center justify-between relative z-10">
-              <span>Interactive Model</span>
-              <span className="text-white font-medium">Autonomous Systems</span>
+            {/* Tagline below the robot */}
+            <div className="mt-5 text-center">
+              <h3 className="font-montserrat text-xs sm:text-sm font-extrabold tracking-[0.28em] text-white uppercase">
+                ENGINEERING SYSTEMS THAT THINK.
+              </h3>
             </div>
           </div>
 
-          {/* Right Column: Categorized Technical Skills */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-4">
-            {skillCategories.map((group) => {
-              const Icon = group.icon;
-              return (
-                <div
-                  key={group.category}
-                  className={`border border-white/10 bg-[#080808] p-5 sm:p-6 rounded-2xl hover:border-white/25 transition-all space-y-3 ${
-                    group.highlight ? "border-white/20 bg-gradient-to-r from-white/[0.03] to-transparent" : ""
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-white" />
-                      </div>
-                      <h3 className="font-montserrat text-sm font-bold text-white uppercase tracking-wider">
-                        {group.category}
-                      </h3>
-                    </div>
-                    {group.highlight && (
-                      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/40 px-2.5 py-0.5 rounded-full border border-emerald-800/50">
-                        Primary Focus
-                      </span>
-                    )}
-                  </div>
+          {/* RIGHT SIDE — SOFTWARE ENGINEERING + TOOLS & WORKFLOW (lg:col-span-3) */}
+          <div className="lg:col-span-3 flex flex-col gap-4 order-3">
+            {/* Group: LANGUAGES */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="border border-white/10 bg-[#080808] p-4 sm:p-5 rounded-2xl space-y-2.5 hover:border-white/20 transition-all shadow-md"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                <Terminal className="w-3.5 h-3.5 text-white" />
+                <span className="font-montserrat text-xs font-bold tracking-wider text-white uppercase">
+                  Languages
+                </span>
+              </div>
 
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {group.skills.map((skill) => (
-                      <span
-                        key={skill}
-                        className="text-xs font-mono px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {languageSkills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-default select-none"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Group: BACKEND & DATA */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+              className="border border-white/10 bg-[#080808] p-4 sm:p-5 rounded-2xl space-y-2.5 hover:border-white/20 transition-all shadow-md"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                <Database className="w-3.5 h-3.5 text-white" />
+                <span className="font-montserrat text-xs font-bold tracking-wider text-white uppercase">
+                  Backend &amp; Data
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {backendSkills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-default select-none"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Group: WEB FRONTEND */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="border border-white/10 bg-[#080808] p-4 sm:p-5 rounded-2xl space-y-2.5 hover:border-white/20 transition-all shadow-md"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                <Layout className="w-3.5 h-3.5 text-white" />
+                <span className="font-montserrat text-xs font-bold tracking-wider text-white uppercase">
+                  Web Frontend
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {webSkills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-default select-none"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Group: TOOLS & WORKFLOW (Positioned lower-right) */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              className="border border-white/10 bg-[#080808] p-4 sm:p-5 rounded-2xl space-y-2.5 hover:border-white/20 transition-all shadow-md"
+            >
+              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                <Wrench className="w-3.5 h-3.5 text-neutral-400" />
+                <span className="font-montserrat text-xs font-bold tracking-wider text-neutral-400 uppercase">
+                  Tools &amp; Workflow
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                {toolSkills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-xs font-mono px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-neutral-300 hover:border-white/30 hover:text-white hover:bg-white/[0.08] hover:-translate-y-0.5 transition-all cursor-default select-none"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
           </div>
 
         </div>
