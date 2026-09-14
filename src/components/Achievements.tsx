@@ -44,11 +44,15 @@ export function Achievements() {
               </div>
 
               <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 text-white font-mono text-xs font-bold mb-3 shadow-[0_0_15px_rgba(255,255,255,0.08)]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  <span>RANK #87 · SCORE: 67.7/100</span>
+                </div>
                 <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
-                  HackerRank Orchestrate — Buy or Wait?
+                  Rank #87 — HackerRank Orchestrate
                 </h3>
-                <div className="text-xs font-mono text-neutral-400 mt-1">
-                  Rank #87 · 67.7/100 · September 2026
+                <div className="text-xs font-mono text-neutral-400 mt-1.5">
+                  Project: Buy or Wait? · September 2026
                 </div>
               </div>
 
@@ -59,10 +63,10 @@ export function Achievements() {
 
             <div className="flex flex-wrap gap-2 pt-1">
               {[
+                "Rank #87 (67.7/100)",
                 "Affordability AI",
                 "LLM Extraction",
                 "Deterministic Simulation",
-                "Rank #87",
               ].map((tag) => (
                 <span
                   key={tag}
