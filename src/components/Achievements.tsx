@@ -23,34 +23,85 @@ export function Achievements() {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
-          {/* Card 1: Rapid Hackathon Product Delivery */}
-          <div className="border border-white/10 bg-[#080808] p-8 rounded-2xl space-y-6 hover:border-white/25 transition-all">
-            <div className="flex items-start justify-between">
-              <div className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
-                <Trophy className="w-6 h-6 text-white" />
+          {/* Card 1: HackerRank Orchestrate — Buy or Wait? */}
+          <div className="border border-white/10 bg-[#080808] p-8 rounded-2xl space-y-6 hover:border-white/25 transition-all flex flex-col justify-between">
+            <div className="space-y-6">
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-white" />
+                </div>
+                <a
+                  href="https://github.com/mani-4444/hackerrank-orchestrate-september26"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-montserrat uppercase tracking-wider text-neutral-300 hover:text-white border border-white/20 hover:border-white px-3.5 py-1 rounded-full transition-all"
+                >
+                  <span>VIEW REPO</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
               </div>
-              <span className="text-xs font-mono px-3 py-1 rounded-full border border-white/15 bg-white/5 text-neutral-300">
-                Hackathon Engineering
-              </span>
+
+              <div>
+                <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
+                  HackerRank Orchestrate — Buy or Wait?
+                </h3>
+                <div className="text-xs font-mono text-neutral-400 mt-1">
+                  Rank #87 · 67.7/100 · September 2026
+                </div>
+              </div>
+
+              <p className="font-open-sans text-sm text-neutral-300 leading-relaxed">
+                Built an AI-powered financial affordability agent combining LLM-based financial evidence extraction with deterministic financial reasoning.
+              </p>
             </div>
 
-            <div>
-              <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
-                Rapid Hackathon Product Delivery
-              </h3>
-              <div className="text-xs font-mono text-neutral-400 mt-1">
-                Multi-Hackathon Contender · 24–36h High-Pressure Sprints
-              </div>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {[
+                "Affordability AI",
+                "LLM Extraction",
+                "Deterministic Simulation",
+                "Rank #87",
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs font-mono px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
+          </div>
 
-            <p className="font-open-sans text-sm text-neutral-300 leading-relaxed">
-              Competed across multiple competitive hackathons, transforming open-ended problem statements
-              into functional, production-ready systems within strict 24–36 hour constraints. Spearheaded
-              core backend architecture, real-time multi-agent and voice pipelines (including KrishiCFO and JARVIS),
-              and delivered high-stakes live jury demos.
-            </p>
+          {/* Card 2: Rapid Hackathon Product Delivery */}
+          <div className="border border-white/10 bg-[#080808] p-8 rounded-2xl space-y-6 hover:border-white/25 transition-all flex flex-col justify-between">
+            <div className="space-y-6">
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
+                  <Trophy className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-xs font-mono px-3 py-1 rounded-full border border-white/15 bg-white/5 text-neutral-300">
+                  Hackathon Engineering
+                </span>
+              </div>
+
+              <div>
+                <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
+                  Rapid Hackathon Product Delivery
+                </h3>
+                <div className="text-xs font-mono text-neutral-400 mt-1">
+                  Multi-Hackathon Contender · 24–36h High-Pressure Sprints
+                </div>
+              </div>
+
+              <p className="font-open-sans text-sm text-neutral-300 leading-relaxed">
+                Competed across multiple competitive hackathons, transforming open-ended problem statements
+                into functional, production-ready systems within strict 24–36 hour constraints. Spearheaded
+                core backend architecture, real-time multi-agent and voice pipelines (including KrishiCFO and JARVIS),
+                and delivered high-stakes live jury demos.
+              </p>
+            </div>
 
             <div className="flex flex-wrap gap-2 pt-1">
               {[
@@ -61,7 +112,7 @@ export function Achievements() {
               ].map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-mono px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300"
+                  className="text-xs font-mono px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300"
                 >
                   {tag}
                 </span>
@@ -69,42 +120,44 @@ export function Achievements() {
             </div>
           </div>
 
-          {/* Card 2: 200+ Solved DSA Problems */}
-          <div className="border border-white/10 bg-[#080808] p-8 rounded-2xl space-y-6 hover:border-white/25 transition-all">
-            <div className="flex items-start justify-between">
-              <div className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
-                <Code2 className="w-6 h-6 text-white" />
+          {/* Card 3: 200+ Solved DSA Problems */}
+          <div className="border border-white/10 bg-[#080808] p-8 rounded-2xl space-y-6 hover:border-white/25 transition-all flex flex-col justify-between">
+            <div className="space-y-6">
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-full border border-white/15 bg-white/5 flex items-center justify-center">
+                  <Code2 className="w-6 h-6 text-white" />
+                </div>
+                <a
+                  href="https://leetcode.com/Yo7vJoRqBP"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-montserrat uppercase tracking-wider text-neutral-300 hover:text-white border border-white/20 hover:border-white px-3.5 py-1 rounded-full transition-all"
+                >
+                  <span>VERIFY PROFILE</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
               </div>
-              <a
-                href="https://leetcode.com/Yo7vJoRqBP"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-montserrat uppercase tracking-wider text-neutral-300 hover:text-white border border-white/20 hover:border-white px-3.5 py-1 rounded-full transition-all"
-              >
-                <span>VERIFY PROFILE</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
 
-            <div>
-              <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
-                200+ Solved DSA Problems
-              </h3>
-              <div className="text-xs font-mono text-neutral-400 mt-1">
-                Language: C++ · LeetCode &amp; Competitive Algorithms
+              <div>
+                <h3 className="font-montserrat text-2xl font-bold text-white tracking-tight">
+                  200+ Solved DSA Problems
+                </h3>
+                <div className="text-xs font-mono text-neutral-400 mt-1">
+                  Language: C++ · LeetCode &amp; Competitive Algorithms
+                </div>
               </div>
-            </div>
 
-            <p className="font-open-sans text-sm text-neutral-300 leading-relaxed">
-              Demonstrated problem-solving rigor across complex algorithmic paradigms,
-              with specialized depth in Dynamic Programming, Game Theory, and Divide and Conquer algorithms.
-            </p>
+              <p className="font-open-sans text-sm text-neutral-300 leading-relaxed">
+                Demonstrated problem-solving rigor across complex algorithmic paradigms,
+                with specialized depth in Dynamic Programming, Game Theory, and Divide and Conquer algorithms.
+              </p>
+            </div>
 
             <div className="flex flex-wrap gap-2 pt-1">
               {["Dynamic Programming", "Game Theory", "Divide and Conquer", "C++"].map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-mono px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300"
+                  className="text-xs font-mono px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300"
                 >
                   {tag}
                 </span>
