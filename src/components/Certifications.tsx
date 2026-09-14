@@ -34,9 +34,6 @@ export function Certifications() {
               Certifications
             </h2>
           </div>
-          <p className="font-open-sans text-sm text-neutral-400 max-w-md leading-relaxed">
-            Structured coursework validating expertise across generative programming and applied machine learning.
-          </p>
         </div>
 
         {/* Cards */}

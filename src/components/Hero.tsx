@@ -133,23 +133,6 @@ export function Hero() {
 
         </div>
       </div>
-
-      {/* Bottom Row: Scroll to commence indicator */}
-      <div className="max-w-7xl mx-auto w-full pt-8 flex items-center justify-between border-t border-white/5 relative z-10">
-        <div className="text-[11px] font-montserrat tracking-[0.2em] text-neutral-500 uppercase">
-          01 // INITIALIZATION
-        </div>
-
-        <a
-          href="#about"
-          className="group flex items-center gap-3 text-[11px] font-montserrat tracking-[0.2em] text-neutral-400 hover:text-white uppercase transition-colors"
-        >
-          <div className="w-8 h-8 rounded-full border border-white/20 group-hover:border-white flex items-center justify-center transition-all">
-            <ArrowDown className="w-3.5 h-3.5 text-neutral-300 group-hover:text-white transition-colors" />
-          </div>
-          <span>SCROLL TO COMMENCE</span>
-        </a>
-      </div>
     </section>
   );
 }

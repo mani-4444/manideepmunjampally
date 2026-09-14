@@ -17,10 +17,6 @@ export function About() {
               Engineering Profile
             </h2>
           </div>
-          <p className="font-open-sans text-sm text-neutral-400 max-w-md leading-relaxed">
-            Computer Science undergraduate at CBIT focusing on production full-stack systems,
-            LLM runtime pipelines, and agentic workflows.
-          </p>
         </div>
 
         {/* Highlights & Engineering Summary Ribbon */}

@@ -105,10 +105,6 @@ export function Skills() {
               Technical Stack &amp; Systems
             </h2>
           </div>
-          <p className="font-open-sans text-sm text-neutral-400 max-w-md leading-relaxed">
-            Proficiencies across multi-model generative AI architectures, algorithmic programming,
-            and production full-stack systems.
-          </p>
         </div>
 
         {/* Balanced 3-Zone Composition: Left (AI + Creative) / Center (Safe Zone for Scaled Robot) / Right (2x2 Engineering + Tools) */}
@@ -178,12 +174,6 @@ export function Skills() {
           <div className="lg:col-span-5 xl:col-span-5 flex flex-col items-center justify-between min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] py-1 order-1 lg:order-2 pointer-events-none">
             {/* Top Label: Floating above the robot without obscuring its head */}
             <div className="pointer-events-auto mb-auto -mt-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/15 bg-black/60 backdrop-blur-md shadow-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[10px] sm:text-[11px] font-montserrat font-bold tracking-[0.2em] text-neutral-300 uppercase">
-                  AGENTIC AI VISUALIZER
-                </span>
-              </div>
             </div>
 
             {/* Clear Visual Safe Zone: The scaled 3D robot shines through here with generous breathing space */}

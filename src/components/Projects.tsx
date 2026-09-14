@@ -51,10 +51,6 @@ export function Projects() {
               Featured Systems
             </h2>
           </div>
-          <p className="font-open-sans text-sm text-neutral-400 max-w-md leading-relaxed">
-            Production-grade builds addressing concrete latency, state synchronization,
-            and deterministic logic constraints.
-          </p>
         </div>
 
         {/* Projects List */}

@@ -27,7 +27,7 @@ export function Footer() {
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
             {/* Primary Email CTA */}
             <a
-              href="mailto:manideepmunjampally@gmail.com"
+              href="mailto:manideepmunjampally4@gmail.com"
               className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-neutral-200 text-black text-xs font-montserrat font-bold uppercase tracking-wider px-6 py-3.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-xl whitespace-nowrap"
             >
               <Mail className="w-4 h-4 text-black" />

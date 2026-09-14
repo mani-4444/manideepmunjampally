@@ -17,9 +17,6 @@ export function Achievements() {
               Honors &amp; Milestones
             </h2>
           </div>
-          <p className="font-open-sans text-sm text-neutral-400 max-w-md leading-relaxed">
-            Verified competitive programming benchmarks and hackathon recognitions.
-          </p>
         </div>
 
         {/* Cards Grid */}
