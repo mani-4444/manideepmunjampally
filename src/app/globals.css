@@ -88,293 +88,299 @@ footer[id] {
    Typography roles
    ------------------------------------------------------------ */
 
-.font-akira { font-family: var(--font-akira), sans-serif; }
-.font-montserrat { font-family: var(--font-montserrat), sans-serif; }
-.font-open-sans { font-family: var(--font-open-sans), sans-serif; }
+/* Layered so Tailwind utilities win over these component classes.
+   Unlayered CSS beats layered utilities, which silently dropped
+   overrides like `field-key text-bone-mute` back to the class colour. */
+@layer components {
+  .font-akira { font-family: var(--font-akira), sans-serif; }
+  .font-montserrat { font-family: var(--font-montserrat), sans-serif; }
+  .font-open-sans { font-family: var(--font-open-sans), sans-serif; }
 
-.font-data {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
-  font-variant-numeric: tabular-nums;
+  .font-data {
+    font-family: var(--font-jetbrains), ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Akira — reserved for exactly two display moments on the page. */
+  /* Measured: Akira Expanded runs ~0.905em per character, so the 11-char
+     "MUNJAMPALLY" needs ~10em of width. Capped so it always fits the shell
+     measure rather than being clipped by its own reveal mask. */
+  .display-hero {
+    font-family: var(--font-akira), sans-serif;
+    font-size: clamp(1.6rem, 7.6vw, 6.6rem);
+    line-height: 0.9;
+    letter-spacing: -0.012em;
+    text-transform: uppercase;
+  }
+
+  .display-sign {
+    font-family: var(--font-akira), sans-serif;
+    font-size: clamp(1.5rem, 4.8vw, 3.8rem);
+    line-height: 0.94;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+  }
+
+  /* Section titles — confidence through scale and tracking, not capitals. */
+  .h-section {
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.95rem, 4.6vw, 3.55rem);
+    line-height: 0.95;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
+  }
+
+  .h-case {
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 2.9vw, 2.3rem);
+    line-height: 1.02;
+    letter-spacing: -0.026em;
+  }
+
+  .h-block {
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 700;
+    font-size: 1.0625rem;
+    line-height: 1.25;
+    letter-spacing: -0.014em;
+  }
+
+  /* Pull quote — the one place Poppins italic is allowed. */
+  .lede {
+    font-family: var(--font-poppins), serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.9vw, 1.5rem);
+    line-height: 1.48;
+    letter-spacing: -0.012em;
+    text-wrap: pretty;
+  }
+
+  .lede-sm {
+    font-family: var(--font-poppins), serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+    line-height: 1.5;
+    letter-spacing: -0.008em;
+    text-wrap: pretty;
+  }
+
+  /* Body — held to a readable measure. */
+  .body-copy {
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.72;
+    color: #A8A49C;
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+
+  .body-copy strong,
+  .body-copy b {
+    color: #EDE9E0;
+    font-weight: 600;
+  }
+
+  /* Marginal / rail label. Sentence case — the page never shouts. */
+  .rail-label {
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 600;
+    font-size: 0.6875rem;
+    letter-spacing: 0.055em;
+    color: #6E6A63;
+  }
+
+  .field-key {
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 600;
+    font-size: 0.625rem;
+    letter-spacing: 0.085em;
+    text-transform: uppercase;
+    color: #46433E;
+  }
+
+  /* ------------------------------------------------------------
+     Ruler tick rule — the signature structural device.
+     A measuring edge: a 1px tick every 11px, a taller mark every 5th.
+     ------------------------------------------------------------ */
+
+  .tick-rule {
+    height: 11px;
+    width: 100%;
+    border-bottom: 1px solid var(--rule-strong);
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, left bottom;
+    background-size: 100% 3px, 100% 7px;
+    background-image:
+      repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(to right, var(--rule-strong) 0 1px, transparent 1px 55px);
+  }
+
+  .tick-rule-signal {
+    border-bottom-color: rgba(255, 200, 0, 0.5);
+    background-image:
+      repeating-linear-gradient(to right, rgba(255, 200, 0, 0.2) 0 1px, transparent 1px 11px),
+      repeating-linear-gradient(to right, rgba(255, 200, 0, 0.45) 0 1px, transparent 1px 55px);
+  }
+
+  /* Vertical measuring edge, for the left rail */
+  .tick-rule-y {
+    width: 11px;
+    border-right: 1px solid var(--rule);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 3px 100%;
+    background-image: repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 11px);
+  }
+
+  /* ------------------------------------------------------------
+     Surfaces — defined by edges, not by fill
+     ------------------------------------------------------------ */
+
+  .panel {
+    background: #000000;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+  }
+
+  /* Corner brackets: a machined register mark, for key panels only */
+  .bracket { position: relative; }
+
+  .bracket::before,
+  .bracket::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    pointer-events: none;
+  }
+
+  .bracket::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid rgba(255, 200, 0, 0.75);
+    border-left: 1px solid rgba(255, 200, 0, 0.75);
+  }
+
+  .bracket::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid rgba(255, 200, 0, 0.75);
+    border-right: 1px solid rgba(255, 200, 0, 0.75);
+  }
+
+  /* Data cell — replaces the endless rounded tag pills.
+     Square-ish, because it carries information rather than action. */
+  .cell {
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.005em;
+    color: #A8A49C;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.3rem 0.6rem;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .cell:hover {
+    color: #EDE9E0;
+    border-color: var(--rule-strong);
+  }
+
+  .cell-signal {
+    color: #FFC800;
+    border-color: rgba(255, 200, 0, 0.34);
+  }
+
+  .cell-signal:hover {
+    color: #FFC800;
+    border-color: rgba(255, 200, 0, 0.7);
+  }
+
+  /* Filled, not outlined — the one step above cell-signal, reserved for the
+     tools that should read first in a group. */
+  .cell-featured {
+    background: #FFC800;
+    border-color: #FFC800;
+    color: #000000;
+    font-weight: 600;
+  }
+
+  .cell-featured:hover {
+    background: #FFDB4D;
+    border-color: #FFDB4D;
+    color: #000000;
+  }
+
+  /* ------------------------------------------------------------
+     Actions — the only round things on the page
+     ------------------------------------------------------------ */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    font-family: var(--font-montserrat), sans-serif;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: -0.005em;
+    padding: 0.72rem 1.35rem;
+    transition: background-color 0.2s ease, color 0.2s ease,
+      border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn:active { transform: translateY(1px); }
+
+  .btn-signal {
+    background: #FFC800;
+    color: #000000;
+    border: 1px solid #FFC800;
+  }
+
+  .btn-signal:hover {
+    background: #FFDB4D;
+    border-color: #FFDB4D;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: #EDE9E0;
+    border: 1px solid var(--rule-strong);
+  }
+
+  .btn-ghost:hover {
+    border-color: #EDE9E0;
+    background: rgba(237, 233, 224, 0.06);
+  }
+
+  /* Inline link with a sweeping underline on hover */
+  .link-sweep {
+    position: relative;
+    color: #EDE9E0;
+    text-decoration: none;
+  }
+
+  .link-sweep::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background: #FFC800;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-sweep:hover::after { transform: scaleX(1); }
+
 }
-
-/* Akira — reserved for exactly two display moments on the page. */
-/* Measured: Akira Expanded runs ~0.905em per character, so the 11-char
-   "MUNJAMPALLY" needs ~10em of width. Capped so it always fits the shell
-   measure rather than being clipped by its own reveal mask. */
-.display-hero {
-  font-family: var(--font-akira), sans-serif;
-  font-size: clamp(1.6rem, 7.6vw, 6.6rem);
-  line-height: 0.9;
-  letter-spacing: -0.012em;
-  text-transform: uppercase;
-}
-
-.display-sign {
-  font-family: var(--font-akira), sans-serif;
-  font-size: clamp(1.5rem, 4.8vw, 3.8rem);
-  line-height: 0.94;
-  letter-spacing: 0.005em;
-  text-transform: uppercase;
-}
-
-/* Section titles — confidence through scale and tracking, not capitals. */
-.h-section {
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 800;
-  font-size: clamp(1.95rem, 4.6vw, 3.55rem);
-  line-height: 0.95;
-  letter-spacing: -0.032em;
-  text-wrap: balance;
-}
-
-.h-case {
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.5rem, 2.9vw, 2.3rem);
-  line-height: 1.02;
-  letter-spacing: -0.026em;
-}
-
-.h-block {
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 700;
-  font-size: 1.0625rem;
-  line-height: 1.25;
-  letter-spacing: -0.014em;
-}
-
-/* Pull quote — the one place Poppins italic is allowed. */
-.lede {
-  font-family: var(--font-poppins), serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(1.05rem, 1.9vw, 1.5rem);
-  line-height: 1.48;
-  letter-spacing: -0.012em;
-  text-wrap: pretty;
-}
-
-.lede-sm {
-  font-family: var(--font-poppins), serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(0.95rem, 1.2vw, 1.08rem);
-  line-height: 1.5;
-  letter-spacing: -0.008em;
-  text-wrap: pretty;
-}
-
-/* Body — held to a readable measure. */
-.body-copy {
-  font-family: var(--font-open-sans), sans-serif;
-  font-size: 0.95rem;
-  line-height: 1.72;
-  color: #A8A49C;
-  max-width: 62ch;
-  text-wrap: pretty;
-}
-
-.body-copy strong,
-.body-copy b {
-  color: #EDE9E0;
-  font-weight: 600;
-}
-
-/* Marginal / rail label. Sentence case — the page never shouts. */
-.rail-label {
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 600;
-  font-size: 0.6875rem;
-  letter-spacing: 0.055em;
-  color: #6E6A63;
-}
-
-.field-key {
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 600;
-  font-size: 0.625rem;
-  letter-spacing: 0.085em;
-  text-transform: uppercase;
-  color: #46433E;
-}
-
-/* ------------------------------------------------------------
-   Ruler tick rule — the signature structural device.
-   A measuring edge: a 1px tick every 11px, a taller mark every 5th.
-   ------------------------------------------------------------ */
-
-.tick-rule {
-  height: 11px;
-  width: 100%;
-  border-bottom: 1px solid var(--rule-strong);
-  background-repeat: no-repeat, no-repeat;
-  background-position: left bottom, left bottom;
-  background-size: 100% 3px, 100% 7px;
-  background-image:
-    repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px 11px),
-    repeating-linear-gradient(to right, var(--rule-strong) 0 1px, transparent 1px 55px);
-}
-
-.tick-rule-signal {
-  border-bottom-color: rgba(255, 200, 0, 0.5);
-  background-image:
-    repeating-linear-gradient(to right, rgba(255, 200, 0, 0.2) 0 1px, transparent 1px 11px),
-    repeating-linear-gradient(to right, rgba(255, 200, 0, 0.45) 0 1px, transparent 1px 55px);
-}
-
-/* Vertical measuring edge, for the left rail */
-.tick-rule-y {
-  width: 11px;
-  border-right: 1px solid var(--rule);
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: 3px 100%;
-  background-image: repeating-linear-gradient(to bottom, var(--rule) 0 1px, transparent 1px 11px);
-}
-
-/* ------------------------------------------------------------
-   Surfaces — defined by edges, not by fill
-   ------------------------------------------------------------ */
-
-.panel {
-  background: #000000;
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-}
-
-/* Corner brackets: a machined register mark, for key panels only */
-.bracket { position: relative; }
-
-.bracket::before,
-.bracket::after {
-  content: "";
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  pointer-events: none;
-}
-
-.bracket::before {
-  top: -1px;
-  left: -1px;
-  border-top: 1px solid rgba(255, 200, 0, 0.75);
-  border-left: 1px solid rgba(255, 200, 0, 0.75);
-}
-
-.bracket::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 1px solid rgba(255, 200, 0, 0.75);
-  border-right: 1px solid rgba(255, 200, 0, 0.75);
-}
-
-/* Data cell — replaces the endless rounded tag pills.
-   Square-ish, because it carries information rather than action. */
-.cell {
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 500;
-  font-size: 0.75rem;
-  letter-spacing: 0.005em;
-  color: #A8A49C;
-  border: 1px solid var(--rule);
-  border-radius: 2px;
-  padding: 0.3rem 0.6rem;
-  transition: color 0.18s ease, border-color 0.18s ease;
-}
-
-.cell:hover {
-  color: #EDE9E0;
-  border-color: var(--rule-strong);
-}
-
-.cell-signal {
-  color: #FFC800;
-  border-color: rgba(255, 200, 0, 0.34);
-}
-
-.cell-signal:hover {
-  color: #FFC800;
-  border-color: rgba(255, 200, 0, 0.7);
-}
-
-/* Filled, not outlined — the one step above cell-signal, reserved for the
-   tools that should read first in a group. */
-.cell-featured {
-  background: #FFC800;
-  border-color: #FFC800;
-  color: #000000;
-  font-weight: 600;
-}
-
-.cell-featured:hover {
-  background: #FFDB4D;
-  border-color: #FFDB4D;
-  color: #000000;
-}
-
-/* ------------------------------------------------------------
-   Actions — the only round things on the page
-   ------------------------------------------------------------ */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  border-radius: 999px;
-  font-family: var(--font-montserrat), sans-serif;
-  font-weight: 700;
-  font-size: 0.8125rem;
-  letter-spacing: -0.005em;
-  padding: 0.72rem 1.35rem;
-  transition: background-color 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease, transform 0.2s ease;
-}
-
-.btn:active { transform: translateY(1px); }
-
-.btn-signal {
-  background: #FFC800;
-  color: #000000;
-  border: 1px solid #FFC800;
-}
-
-.btn-signal:hover {
-  background: #FFDB4D;
-  border-color: #FFDB4D;
-}
-
-.btn-ghost {
-  background: transparent;
-  color: #EDE9E0;
-  border: 1px solid var(--rule-strong);
-}
-
-.btn-ghost:hover {
-  border-color: #EDE9E0;
-  background: rgba(237, 233, 224, 0.06);
-}
-
-/* Inline link with a sweeping underline on hover */
-.link-sweep {
-  position: relative;
-  color: #EDE9E0;
-  text-decoration: none;
-}
-
-.link-sweep::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 1px;
-  background: #FFC800;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.link-sweep:hover::after { transform: scaleX(1); }
 
 /* ------------------------------------------------------------
    Atmosphere

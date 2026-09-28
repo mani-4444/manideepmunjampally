@@ -60,7 +60,10 @@ export function Navbar() {
           className="group hidden shrink-0 items-center gap-2.5 sm:flex"
         >
           <span className="h-2.5 w-2.5 bg-signal transition-transform duration-300 group-hover:rotate-45" />
-          <span className="field-key text-bone-mute transition-colors group-hover:text-bone">
+          {/* Explicit styling rather than `field-key`, whose #46433E is a
+              margin-label tone (~2.4:1 on black) and far too faint for a
+              mark that has to read as the site's logo. */}
+          <span className="font-montserrat text-[11px] font-bold tracking-[0.18em] text-bone-dim transition-colors group-hover:text-bone">
             MM
           </span>
         </a>
