@@ -1,93 +1,112 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { motion, useScroll } from "framer-motion";
+
+const NAV = [
+  { id: "about", label: "Background" },
+  { id: "projects", label: "Work" },
+  { id: "skills", label: "Stack" },
+  { id: "achievements", label: "Honors" },
+] as const;
 
 export function Navbar() {
-  const [activeTab, setActiveTab] = useState<string>("about");
+  const [active, setActive] = useState<string>("about");
+  const [lifted, setLifted] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  /* Active section via IntersectionObserver rather than an offsetTop
+     loop on every scroll event — accurate at section boundaries and it
+     doesn't run layout maths 60 times a second. */
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-25% 0px -55% 0px", threshold: [0, 0.2, 0.5, 1] }
+    );
+
+    NAV.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
-    const sections = ["about", "projects", "skills", "achievements"];
-    const handleScroll = () => {
-      const scrollY = window.scrollY + 250;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollY) {
-          setActiveTab(sections[i]);
-          break;
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setLifted(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-6 py-6 flex items-center justify-between">
-      {/* Spacer for symmetrical center alignment */}
-      <div className="hidden lg:block w-32" />
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        lifted ? "border-b border-rule bg-ink/80 backdrop-blur-xl" : "border-b border-transparent"
+      }`}
+      style={{ height: "var(--nav-h)" }}
+    >
+      <div className="shell flex h-full items-center justify-between gap-4">
+        {/* Register mark. The name is deliberately not repeated here —
+            the hero says it once, at full size. */}
+        <a
+          href="#top"
+          aria-label="Back to top"
+          className="group hidden shrink-0 items-center gap-2.5 sm:flex"
+        >
+          <span className="h-2.5 w-2.5 bg-signal transition-transform duration-300 group-hover:rotate-45" />
+          <span className="field-key text-bone-mute transition-colors group-hover:text-bone">
+            MM
+          </span>
+        </a>
 
-      {/* Floating Centered Pill Capsule */}
-      <nav className="pointer-events-auto mx-auto border border-white/15 bg-black/80 backdrop-blur-xl rounded-full p-1.5 flex items-center shadow-2xl">
-        {/* Tab Switcher Pills */}
-        <div className="flex items-center gap-1">
-          <a
-            href="#about"
-            onClick={() => setActiveTab("about")}
-            className={`text-xs font-montserrat px-3.5 py-1.5 rounded-full transition-all ${
-              activeTab === "about"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
-          >
-            ABOUT
-          </a>
-          <a
-            href="#projects"
-            onClick={() => setActiveTab("projects")}
-            className={`text-xs font-montserrat px-3.5 py-1.5 rounded-full transition-all ${
-              activeTab === "projects"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
-          >
-            PROJECTS
-          </a>
-          <a
-            href="#skills"
-            onClick={() => setActiveTab("skills")}
-            className={`text-xs font-montserrat px-3.5 py-1.5 rounded-full transition-all ${
-              activeTab === "skills"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
-          >
-            SKILLS
-          </a>
-          <a
-            href="#achievements"
-            onClick={() => setActiveTab("achievements")}
-            className={`text-xs font-montserrat px-3.5 py-1.5 rounded-full transition-all ${
-              activeTab === "achievements"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
-          >
-            HONORS
-          </a>
-        </div>
-      </nav>
+        {/* Sections. The active one is marked with a tick, matching the
+            ruler rules that open each section. */}
+        <nav className="-mx-1 flex min-w-0 items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {NAV.map((item) => {
+            const isActive = active === item.id;
+            return (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                aria-current={isActive ? "true" : undefined}
+                className={`relative shrink-0 px-3 py-2 font-montserrat text-[12.5px] font-semibold tracking-tight transition-colors sm:px-3.5 ${
+                  isActive ? "text-bone" : "text-bone-mute hover:text-bone-dim"
+                }`}
+              >
+                {item.label}
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-1/2 top-0 h-[5px] w-px -translate-x-1/2 bg-signal transition-opacity duration-300 ${
+                    isActive ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              </a>
+            );
+          })}
+        </nav>
 
-      {/* Top Right "LET'S TALK" Pill Button */}
-      <div className="pointer-events-auto">
+        {/* Below sm there isn't room for four sections plus an action, and
+            the nav matters more — the hero and footer both carry this CTA. */}
         <a
           href="#contact"
-          className="inline-flex items-center justify-center border border-white/25 hover:border-white/80 bg-black/60 backdrop-blur-md text-white font-montserrat text-xs font-medium tracking-widest uppercase px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg"
+          className="btn btn-ghost hidden shrink-0 sm:inline-flex sm:!px-5 sm:!py-2.5 sm:!text-[12.5px]"
         >
-          LET&apos;S TALK
+          Get in touch
         </a>
       </div>
+
+      {/* Read position. A measuring edge for the whole document. */}
+      <motion.div
+        aria-hidden="true"
+        style={{ scaleX: scrollYProgress }}
+        className="absolute inset-x-0 bottom-0 h-px origin-left bg-signal"
+      />
     </header>
   );
 }

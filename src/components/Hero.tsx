@@ -1,136 +1,208 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
 import Image from "next/image";
-import { Spotlight } from "@/components/ui/spotlight";
+import { ArrowUpRight } from "lucide-react";
+
+/* His stack, read as one continuous line rather than twenty scattered
+   badges. Duplicated once in the markup so the loop is seamless. */
+const STACK = [
+  "Claude Code", "Python", "TypeScript", "C++", "SQL", "FastAPI", "React",
+  "Next.js", "Claude", "Gemini", "Groq", "Ollama", "Supabase", "Pandas",
+  "Whisper", "ElevenLabs", "Tailwind", "Vercel",
+];
+
+const SPECS = [
+  { k: "Institution", v: "CBIT Hyderabad", n: "Computer Science" },
+  { k: "CGPA", v: "9.74 / 10.00", n: "Undergraduate" },
+  { k: "Algorithms", v: "200+ solved", n: "C++, DP and game theory" },
+  { k: "HackerRank Orchestrate", v: "Rank #87", n: "67.7 / 100" },
+];
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col justify-between bg-wireframe-grid text-white overflow-hidden pt-32 pb-12 px-6">
-      {/* Dynamic Cursor Spotlight for the Hero */}
-      <Spotlight
-        className="-top-32 left-1/4 md:left-1/2 md:-top-20"
-        size={450}
+    <section id="top" className="relative overflow-hidden pt-[var(--nav-h)]">
+      <div className="blueprint pointer-events-none absolute inset-0" aria-hidden="true" />
+
+      {/* A single warm wash from the top — the only glow on the page */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-signal/[0.07] blur-[130px]"
       />
 
-      <div className="max-w-7xl mx-auto w-full flex-grow flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
-          
-          {/* Left Column: Typography & Positioning */}
-          <motion.div 
-            className="lg:col-span-7 flex flex-col space-y-6 z-10 lg:pr-6 xl:pr-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Top Eyebrow - Highlighted Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-white/25 bg-white/10 backdrop-blur-md shadow-[0_0_25px_rgba(255,255,255,0.15)] w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.9)]" />
-              <span className="text-[11px] sm:text-xs font-montserrat font-bold tracking-[0.22em] text-white uppercase">
-                FULL-STACK DEVELOPER &amp; AI SYSTEMS ARCHITECT
-              </span>
+      <div className="shell relative pt-12 sm:pt-16 lg:pt-20">
+        <p
+          className="rise font-montserrat text-[13px] font-semibold tracking-tight text-bone-dim"
+          style={{ animationDelay: "60ms" }}
+        >
+          Full-stack developer building generative-AI systems
+        </p>
+
+        {/* Display moment 1 of 2. Akira Expanded is an extremely wide face,
+            so it gets the full measure — squeezed into a column it can only
+            look like a mistake. */}
+        <h1 className="display-hero mt-5 text-bone">
+          <span className="block overflow-hidden pb-[0.06em]">
+            <span className="wipe block" style={{ animationDelay: "180ms" }}>
+              Manideep
+            </span>
+          </span>
+          <span className="block overflow-hidden pb-[0.06em]">
+            <span className="wipe block" style={{ animationDelay: "320ms" }}>
+              Munjampally
+            </span>
+          </span>
+        </h1>
+      </div>
+
+      <div className="shell mt-10 sm:mt-12">
+        <div className="tick-rule edge-draw" style={{ animationDelay: "520ms" }} />
+      </div>
+
+      <div className="shell relative pt-10 sm:pt-12">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="min-w-0">
+            {/* Who he is, in his own voice. This slot used to hold the
+                guardrail principle from Buy or Wait? — a single project's
+                architecture standing in as a claim about all the work,
+                which isn't true of the two apps with no LLM in them. That
+                line belongs to its case study and lives there now. */}
+            <div className="rise flex gap-4 sm:gap-5" style={{ animationDelay: "620ms" }}>
+              <span className="w-px shrink-0 self-stretch bg-signal/60" aria-hidden="true" />
+              <p className="lede max-w-[34ch] text-bone">
+                I&rsquo;m a computer science undergrad at CBIT who ships
+                production software, and I&rsquo;m going deeper into ML and
+                agentic AI.
+              </p>
             </div>
 
-            {/* Main Headline */}
-            <div className="space-y-1">
-              <h1 className="font-akira text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-black text-white leading-[1.05] tracking-tight uppercase">
-                MANIDEEP <br />
-                <span className="text-white">MUNJAMPALLY</span>
-              </h1>
-              <div className="font-poppins-italic text-xl sm:text-2xl md:text-3xl text-neutral-300 font-light pt-2">
-                Shipping Real Products.
-              </div>
-            </div>
-
-            {/* Description Body Copy in Open Sans */}
-            <p className="font-open-sans text-sm sm:text-base text-neutral-400 max-w-xl leading-relaxed">
-              Full-stack developer who builds and ships real, deployed products and
-              engineers multi-tier LLM pipelines. Computer Science undergrad at CBIT
-              with a 9.74/10.00 CGPA, currently deepening into machine learning and
-              agentic workflows.
+            {/* The body carries the specifics so the line above doesn't
+                have to repeat them. */}
+            <p className="rise body-copy mt-7" style={{ animationDelay: "700ms" }}>
+              Five systems so far: tiered LLM routing with an offline
+              fallback, a three-agent debate platform with a live voice
+              pipeline, a 90-day cash-flow simulator, and two web apps
+              running in production. 200+ algorithm problems in C++ alongside
+              them.
             </p>
 
-            {/* Institutional Credentials row */}
-            <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-open-sans text-neutral-400 border-t border-white/10 max-w-lg">
-              <div>
-                <span className="text-white font-medium block">CBIT Hyderabad</span>
-                <span className="text-neutral-500 text-[11px]">Computer Science</span>
-              </div>
-              <div className="h-6 w-px bg-white/10" />
-              <div>
-                <span className="text-white font-medium block">9.74 / 10.00</span>
-                <span className="text-neutral-500 text-[11px]">CGPA</span>
-              </div>
-              <div className="h-6 w-px bg-white/10" />
-              <div>
-                <span className="text-white font-medium block">200+ Solved</span>
-                <span className="text-neutral-500 text-[11px]">DSA (C++)</span>
-              </div>
-            </div>
-
-            {/* Direct Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-4">
-              <a
-                href="#projects"
-                className="bg-white hover:bg-neutral-200 text-black font-montserrat text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-full transition-all hover:scale-105 active:scale-95 shadow-xl"
-              >
-                EXPLORE PROJECTS
+            <div
+              className="rise mt-9 flex flex-wrap items-center gap-2.5"
+              style={{ animationDelay: "780ms" }}
+            >
+              <a href="#projects" className="btn btn-signal">
+                See the work
               </a>
               <a
                 href="https://github.com/mani-4444"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-white/25 hover:border-white text-white font-montserrat text-xs font-medium uppercase tracking-wider px-5 py-3 rounded-full transition-all hover:bg-white/5"
+                className="btn btn-ghost"
               >
-                GITHUB
+                GitHub
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
               <a
                 href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-white/25 hover:border-white text-white font-montserrat text-xs font-medium uppercase tracking-wider px-5 py-3 rounded-full transition-all hover:bg-white/5"
+                className="btn btn-ghost"
               >
-                LINKEDIN
+                LinkedIn
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Right Column: Focused Highlighted Portrait */}
-          <motion.div 
-            className="lg:col-span-5 relative flex items-center justify-center lg:justify-end py-6 lg:py-0 lg:pr-2 xl:pr-6"
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          {/* Identity plate — square, bracketed, register-marked, rather than
+              a circular avatar floating in a blurred white halo. Square means
+              information in this system; the halo was decoration. */}
+          <div
+            className="rise relative w-full max-w-[280px] sm:max-w-[300px] lg:max-w-none"
+            style={{ animationDelay: "420ms" }}
           >
-            <div className="relative group">
-              {/* Soft luminous radial aura glow */}
-              <div className="absolute inset-0 rounded-full bg-white/20 blur-3xl scale-110 pointer-events-none group-hover:scale-120 transition-transform duration-700" />
+            <div className="flex items-stretch gap-3">
+              <div className="tick-rule-y shrink-0 self-stretch" aria-hidden="true" />
 
-              {/* Luminous Gradient Outline Ring */}
-              <div className="relative p-1.5 sm:p-2 rounded-full bg-gradient-to-b from-white via-neutral-300 to-neutral-700 shadow-[0_0_45px_rgba(255,255,255,0.2)]">
-                {/* Portrait Frame with solid black background - reduced by ~10% */}
-                <div className="relative w-56 h-56 sm:w-68 sm:h-68 md:w-76 md:h-76 lg:w-[315px] lg:h-[315px] xl:w-[350px] xl:h-[350px] rounded-full overflow-hidden border-2 border-black bg-black">
+              <div className="min-w-0 flex-1">
+                <div className="bracket relative aspect-[4/5] w-full border border-rule-strong">
                   <Image
                     src="/images/manideep.png"
-                    alt="Manideep Munjampally portrait"
+                    alt="Manideep Munjampally"
                     fill
-                    sizes="(max-width: 640px) 224px, (max-width: 768px) 272px, (max-width: 1024px) 315px, 350px"
-                    className="object-cover object-top scale-105 grayscale contrast-[1.05] transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 1023px) 300px, 340px"
+                    className="object-cover object-top grayscale contrast-[1.18] brightness-[1.15]"
                     priority
                   />
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"
+                  />
+                </div>
+
+                <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-rule pt-2.5">
+                  <span className="field-key">Hyderabad, IN</span>
+                  <span className="font-data text-[10.5px] text-bone-mute">
+                    17°23′N 78°28′E
+                  </span>
                 </div>
               </div>
-
-              {/* Floating Identity & Location Pill */}
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1.5 rounded-full border border-white/20 bg-black/80 backdrop-blur-md text-xs font-mono text-neutral-300 shadow-xl flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Hyderabad, IN · CBIT CSE</span>
-              </div>
             </div>
-          </motion.div>
+          </div>
+        </div>
 
+        {/* Credentials, as a spec strip */}
+        <dl
+          className="rise mt-14 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-rule pt-6 sm:mt-16 sm:grid-cols-4"
+          style={{ animationDelay: "860ms" }}
+        >
+          {SPECS.map((item) => (
+            <div key={item.k} className="min-w-0">
+              {/* reserves two lines so a wrapping key doesn't drop its
+                  value out of line with the rest of the strip */}
+              <dt className="field-key min-h-[2.3em] leading-[1.15]">{item.k}</dt>
+              <dd className="h-block nums mt-1.5 text-bone">{item.v}</dd>
+              <dd className="mt-0.5 text-[11px] leading-snug text-bone-mute">{item.n}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      {/* Stack ticker */}
+      <div className="relative mt-14 sm:mt-16">
+        <div className="shell">
+          <div className="tick-rule" />
+        </div>
+
+        <div className="ticker-host relative overflow-hidden py-4">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-ink to-transparent sm:w-28"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-ink to-transparent sm:w-28"
+          />
+
+          <div className="ticker" aria-hidden="true">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex shrink-0 items-center">
+                {STACK.map((tech) => (
+                  <span key={tech} className="flex shrink-0 items-center">
+                    <span
+                      className={`font-montserrat text-[12.5px] font-semibold tracking-tight ${
+                        tech.startsWith("Claude") ? "text-signal" : "text-bone-mute"
+                      }`}
+                    >
+                      {tech}
+                    </span>
+                    <span className="mx-5 h-[3px] w-[3px] shrink-0 bg-signal/70" />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <span className="sr-only">Stack: {STACK.join(", ")}.</span>
         </div>
       </div>
     </section>

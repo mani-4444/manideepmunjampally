@@ -1,87 +1,66 @@
-"use client";
-
-import React from "react";
-import { Mail, Code2, ArrowUpRight } from "lucide-react";
+import { Code2, Mail } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/SocialIcons";
 
+const CHANNELS = [
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/manideep-munjampally-771254386/", Icon: LinkedinIcon },
+  { label: "GitHub", href: "https://github.com/mani-4444", Icon: GithubIcon },
+  { label: "LeetCode", href: "https://leetcode.com/Yo7vJoRqBP", Icon: Code2 },
+];
+
 export function Footer() {
   return (
-    <footer id="contact" className="py-20 bg-black border-t border-white/10 text-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 border-b border-white/10 pb-16">
-          <div className="max-w-xl">
-            <div className="text-xs font-montserrat tracking-[0.25em] text-neutral-400 uppercase mb-2">
-              CONTACT &amp; CHANNELS
-            </div>
-            <h3 className="font-montserrat text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
-              Ready to ship together?
-            </h3>
-            <p className="font-open-sans text-sm text-neutral-400 leading-relaxed">
-              Seeking Software Engineering, Full-Stack, or Generative AI internship opportunities.
-              Always open to discussing system architecture, latency, and code.
-            </p>
-          </div>
+    <footer id="contact" className="relative">
+      <div className="shell">
+        <div className="tick-rule tick-rule-signal" />
+      </div>
 
-          {/* Direct channels & social icons */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-            {/* Primary Email CTA */}
+      <div className="shell py-16 sm:py-20 lg:py-24">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
+          <div className="min-w-0">
+            <span className="rail-label">Contact</span>
+            {/* Display moment 2 of 2 — a closing signature, not a repeat
+                headline. No apostrophes: Akira Expanded has no glyph for one,
+                so "Let's" silently renders as "Lets". */}
+            <h2 className="display-sign mt-4 text-bone">Available for internships</h2>
+            <p className="body-copy mt-5 max-w-[52ch] text-base">
+              Software Engineering, Full-Stack, or Generative AI. Open to
+              discussing system architecture, latency, and code.
+            </p>
+
             <a
               href="mailto:manideepmunjampally4@gmail.com"
-              className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-neutral-200 text-black text-xs font-montserrat font-bold uppercase tracking-wider px-6 py-3.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-xl whitespace-nowrap"
+              className="btn btn-signal mt-8"
             >
-              <Mail className="w-4 h-4 text-black" />
-              <span>EMAIL MANIDEEP</span>
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              Email Manideep
             </a>
+          </div>
 
-            {/* Social Icons Row */}
-            <div className="flex items-center gap-2.5">
+          <div className="flex gap-3 lg:flex-col lg:items-end">
+            {CHANNELS.map(({ label, href, Icon }) => (
               <a
-                href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                title="LinkedIn Profile"
-                aria-label="LinkedIn Profile"
-                className="w-11 h-11 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 flex items-center justify-center text-neutral-300 hover:text-white transition-all hover:scale-110 shadow-md"
+                className="flex w-full items-center justify-between gap-6 border-b border-rule py-2.5 text-bone-dim transition-colors hover:text-bone lg:w-44"
               >
-                <LinkedinIcon className="w-4 h-4" />
+                <span className="font-montserrat text-[13px] font-semibold">{label}</span>
+                <Icon className="h-3.5 w-3.5" />
               </a>
-
-              <a
-                href="https://github.com/mani-4444"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="GitHub Profile"
-                aria-label="GitHub Profile"
-                className="w-11 h-11 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 flex items-center justify-center text-neutral-300 hover:text-white transition-all hover:scale-110 shadow-md"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://leetcode.com/Yo7vJoRqBP"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LeetCode Profile"
-                aria-label="LeetCode Profile"
-                className="w-11 h-11 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 flex items-center justify-center text-neutral-300 hover:text-white transition-all hover:scale-110 shadow-md"
-              >
-                <Code2 className="w-4 h-4" />
-              </a>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-open-sans text-neutral-500 gap-4">
-          <div>
-            &copy; {new Date().getFullYear()} Manideep Munjampally. Built with Next.js, Tailwind, Framer Motion &amp; GSAP.
-          </div>
-          <div className="flex items-center gap-4 font-mono text-[11px] text-neutral-400">
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-rule pt-7 text-[11px] text-bone-faint sm:flex-row">
+          <div>&copy; {new Date().getFullYear()} Manideep Munjampally</div>
+          <div className="font-data flex items-center gap-3">
             <span>CBIT CSE</span>
-            <span>·</span>
+            <span aria-hidden="true">/</span>
             <span>9.74 CGPA</span>
-            <span>·</span>
-            <span>HYDERABAD</span>
+            <span aria-hidden="true">/</span>
+            <span>Hyderabad</span>
           </div>
         </div>
       </div>
