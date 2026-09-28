@@ -7,18 +7,11 @@ export const PROJECTS: CaseStudyData[] = [
     index: "01",
     name: "Buy or Wait?",
     kind: "Financial affordability AI",
-    context: "HackerRank Orchestrate, September 2026",
+    context: "HackerRank Orchestrate 2026",
     lede: "A hybrid AI financial agent that decides whether a user can safely afford a purchase.",
     href: "https://github.com/mani-4444/hackerrank-orchestrate-september26",
     linkKind: "repo",
-    hrefDisplay: "github.com/mani-4444/hackerrank-orchestrate-september26",
     tech: ["Python", "Gemini 3.6 Flash", "Groq", "Pandas", "LLM extraction", "Deterministic simulation"],
-    highlights: [
-      "Hybrid LLM + deterministic architecture",
-      "4-tier evidence reconciliation",
-      "90-day cash-flow simulation",
-      "Rank #93",
-    ],
     blocks: [
       {
         h: "Hybrid AI architecture",
@@ -43,9 +36,7 @@ export const PROJECTS: CaseStudyData[] = [
     lede: "A 3-agent adversarial AI debate platform giving Indian farmers data-driven crop price advice.",
     href: "https://github.com/ERROR404-26/A4IMPACT",
     linkKind: "repo",
-    hrefDisplay: "github.com/ERROR404-26/A4IMPACT",
     tech: ["Python", "FastAPI", "React", "Llama 3.1 via Groq", "Whisper STT", "ElevenLabs TTS"],
-    highlights: ["3-agent adversarial debate", "Multilingual voice pipeline", "Live pitch lead"],
     blocks: [
       {
         h: "Team project & architecture",
@@ -70,7 +61,6 @@ export const PROJECTS: CaseStudyData[] = [
     lede: "Re-architected from a single cloud endpoint to a tiered Gemini + Groq pipeline, with local Qwen via Ollama for offline resilience.",
     href: "https://github.com/Aurexis-Error-404/Project_Jarvis",
     linkKind: "repo",
-    hrefDisplay: "github.com/Aurexis-Error-404/Project_Jarvis",
     tech: ["Python", "Gemini", "Groq", "Ollama", "Qwen"],
     blocks: [
       {
@@ -96,7 +86,6 @@ export const PROJECTS: CaseStudyData[] = [
     lede: "Real-time state synchronization and streak analytics on Supabase, with an activity-driven recommendation engine.",
     href: "https://habit-tracker-indol-two.vercel.app/",
     linkKind: "live",
-    hrefDisplay: "habit-tracker-indol-two.vercel.app",
     tech: ["React", "TypeScript", "Supabase", "TanStack Query", "Recharts", "Vercel"],
     blocks: [
       {
@@ -122,7 +111,6 @@ export const PROJECTS: CaseStudyData[] = [
     lede: "Automates attendance shortage analysis and calculates exactly how many classes are needed to clear the threshold.",
     href: "https://attendance-tracker-nine-xi.vercel.app/",
     linkKind: "live",
-    hrefDisplay: "attendance-tracker-nine-xi.vercel.app",
     tech: ["React", "TypeScript", "Tailwind CSS", "Vercel"],
     blocks: [
       {

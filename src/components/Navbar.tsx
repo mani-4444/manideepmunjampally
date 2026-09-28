@@ -1,24 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll } from "framer-motion";
-import { LiquidButton } from "@/components/ui/liquid-glass";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
 
 const NAV = [
-  { id: "about", label: "Background" },
-  { id: "projects", label: "Work" },
-  { id: "skills", label: "Stack" },
-  { id: "achievements", label: "Honors" },
+  { id: "work", label: "Work" },
+  { id: "recognition", label: "Recognition" },
+  { id: "stack", label: "Stack" },
+  { id: "background", label: "Background" },
+  { id: "contact", label: "Contact" },
 ] as const;
 
-export function Navbar() {
-  const [active, setActive] = useState<string>("about");
-  const [lifted, setLifted] = useState(false);
-  const { scrollYProgress } = useScroll();
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-  /* Active section via IntersectionObserver rather than an offsetTop
-     loop on every scroll event — accurate at section boundaries and it
-     doesn't run layout maths 60 times a second. */
+export function Navbar() {
+  const [active, setActive] = useState<string | null>(null);
+  const [lifted, setLifted] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  /* Tucks away while reading downward, returns the moment the reader
+     scrolls up — the usual intent to navigate. */
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setLifted(y > 16);
+    if (open) return;
+    setHidden(y > 480 && y > prev + 4);
+    if (y < prev - 4) setHidden(false);
+  });
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -27,7 +45,7 @@ export function Navbar() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible) setActive(visible.target.id);
       },
-      { rootMargin: "-25% 0px -55% 0px", threshold: [0, 0.2, 0.5, 1] }
+      { rootMargin: "-30% 0px -60% 0px", threshold: [0, 0.25, 0.5, 1] }
     );
 
     NAV.forEach(({ id }) => {
@@ -35,43 +53,38 @@ export function Navbar() {
       if (el) observer.observe(el);
     });
 
-    return () => observer.disconnect();
-  }, []);
+    const onTop = () => {
+      if (window.scrollY < 200) setActive(null);
+    };
+    window.addEventListener("scroll", onTop, { passive: true });
 
-  useEffect(() => {
-    const onScroll = () => setLifted(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onTop);
+    };
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        lifted ? "border-b border-rule bg-ink/80 backdrop-blur-xl" : "border-b border-transparent"
+    <motion.header
+      initial={false}
+      animate={{ y: hidden && !reduceMotion ? "-100%" : "0%" }}
+      transition={{ duration: 0.45, ease: EASE }}
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-500 ${
+        lifted || open
+          ? "border-rule bg-ink/75 backdrop-blur-xl backdrop-saturate-150"
+          : "border-transparent"
       }`}
-      style={{ height: "var(--nav-h)" }}
     >
-      <div className="shell flex h-full items-center justify-between gap-4">
-        {/* Register mark. The name is deliberately not repeated here —
-            the hero says it once, at full size. */}
+      <div className="shell flex items-center justify-between gap-6" style={{ height: "var(--nav-h)" }}>
         <a
           href="#top"
-          aria-label="Back to top"
-          className="group hidden shrink-0 items-center gap-2.5 sm:flex"
+          aria-label="Manideep Munjampally, back to top"
+          className="font-serif text-[19px] tracking-[-0.02em] text-bone"
         >
-          <span className="h-2.5 w-2.5 bg-signal transition-transform duration-300 group-hover:rotate-45" />
-          {/* Explicit styling rather than `field-key`, whose #46433E is a
-              margin-label tone (~2.4:1 on black) and far too faint for a
-              mark that has to read as the site's logo. */}
-          <span className="font-montserrat text-[11px] font-bold tracking-[0.18em] text-bone-dim transition-colors group-hover:text-bone">
-            MM
-          </span>
+          Manideep Munjampally
         </a>
 
-        {/* Sections. The active one is marked with a tick, matching the
-            ruler rules that open each section. */}
-        <nav className="-mx-1 flex min-w-0 items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <nav aria-label="Sections" className="hidden items-center md:flex">
           {NAV.map((item) => {
             const isActive = active === item.id;
             return (
@@ -79,38 +92,88 @@ export function Navbar() {
                 key={item.id}
                 href={`#${item.id}`}
                 aria-current={isActive ? "true" : undefined}
-                className={`relative shrink-0 px-3 py-2 font-montserrat text-[12.5px] font-semibold tracking-tight transition-colors sm:px-3.5 ${
-                  isActive ? "text-bone" : "text-bone-mute hover:text-bone-dim"
+                className={`relative rounded-full px-3.5 py-1.5 text-[13.5px] font-medium transition-colors duration-300 ${
+                  isActive ? "text-bone" : "text-bone-mute hover:text-bone"
                 }`}
               >
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    aria-hidden="true"
+                    className="absolute inset-0 -z-10 rounded-full bg-bone/[0.08]"
+                    transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                  />
+                )}
                 {item.label}
-                <span
-                  aria-hidden="true"
-                  className={`absolute left-1/2 top-0 h-[5px] w-px -translate-x-1/2 bg-signal transition-opacity duration-300 ${
-                    isActive ? "opacity-100" : "opacity-0"
-                  }`}
-                />
               </a>
             );
           })}
         </nav>
 
-        {/* Below sm there isn't room for four sections plus an action, and
-            the nav matters more — the hero and footer both carry this CTA. */}
-        <LiquidButton
-          href="#contact"
-          className="hidden shrink-0 px-5 py-2.5 text-[12.5px] sm:inline-flex"
-        >
-          Get in touch
-        </LiquidButton>
+        <div className="flex items-center gap-2">
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary btn-sm"
+          >
+            Resume
+          </a>
+
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-rule-strong md:hidden"
+          >
+            <span
+              className={`absolute h-px w-4 bg-bone transition-transform duration-300 ${
+                open ? "rotate-45" : "-translate-y-[3px]"
+              }`}
+            />
+            <span
+              className={`absolute h-px w-4 bg-bone transition-transform duration-300 ${
+                open ? "-rotate-45" : "translate-y-[3px]"
+              }`}
+            />
+          </button>
+        </div>
       </div>
 
-      {/* Read position. A measuring edge for the whole document. */}
-      <motion.div
-        aria-hidden="true"
-        style={{ scaleX: scrollYProgress }}
-        className="absolute inset-x-0 bottom-0 h-px origin-left bg-signal"
-      />
-    </header>
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="mobile-nav"
+            aria-label="Sections"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="overflow-hidden md:hidden"
+          >
+            <ul className="shell pb-6 pt-1">
+              {NAV.map((item, i) => (
+                <motion.li
+                  key={item.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: EASE, delay: 0.04 * i }}
+                >
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between border-b border-rule py-3.5 font-serif text-2xl tracking-[-0.02em] text-bone"
+                  >
+                    {item.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

@@ -1,64 +1,56 @@
 import { ArrowUpRight } from "lucide-react";
 import { YoutubeIcon, InstagramIcon } from "@/components/icons/SocialIcons";
-import { Section, SectionTitle } from "@/components/ui/section";
+import { Section } from "@/components/ui/section";
+import { Reveal } from "@/components/ui/reveal";
 
-/* The audience numbers are the whole point of this section, so they get the
-   hero-figure treatment directly under the title rather than sitting in a
-   side column at body-text size. */
-const AUDIENCE = [
-  { value: "3,000+", label: "YouTube subscribers" },
-  { value: "2,000+", label: "Instagram followers" },
+/* The audience numbers are the point of this section, so each one is the
+   link to its channel rather than sitting beside a separate link row. */
+const CHANNELS = [
+  {
+    value: "3,000+",
+    label: "YouTube subscribers",
+    href: "https://www.youtube.com/@StrategicTimeoutOfficial",
+    Icon: YoutubeIcon,
+  },
+  {
+    value: "2,000+",
+    label: "Instagram followers",
+    href: "https://www.instagram.com/strategic_timeout_official/",
+    Icon: InstagramIcon,
+  },
 ];
 
 export function OutsideOfCode() {
   return (
-    <Section label="Content creation">
-      <SectionTitle index={5}>Strategic Timeout</SectionTitle>
-
-      <div className="mt-4 flex flex-wrap items-center gap-1.5">
-        <span className="cell cell-signal">Cricket content</span>
-        <span className="cell">Creator, host &amp; editor</span>
-      </div>
-
-      <dl className="mt-10 flex flex-wrap gap-x-14 gap-y-8 border-t border-rule pt-8 sm:gap-x-20">
-        {AUDIENCE.map((item) => (
-          <div key={item.label}>
-            <dd className="nums font-montserrat text-4xl font-extrabold leading-none tracking-[-0.04em] text-signal sm:text-5xl">
-              {item.value}
-            </dd>
-            <dt className="field-key mt-2.5">{item.label}</dt>
-          </div>
+    <Section
+      id="content"
+      eyebrow="Content creation"
+      title="Strategic Timeout."
+      intro="A cricket channel I create, host, and edit myself in Premiere Pro and After Effects."
+      split
+    >
+      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {CHANNELS.map(({ value, label, href, Icon }, i) => (
+          <Reveal as="li" key={label} delay={0.08 * i}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="surface surface-hover group flex h-full flex-col p-6 sm:p-8"
+            >
+              <span className="flex items-center justify-between text-bone-mute">
+                <Icon className="h-4 w-4" />
+                <ArrowUpRight
+                  className="nudge h-4 w-4 transition-colors duration-300 group-hover:text-bone"
+                  aria-hidden="true"
+                />
+              </span>
+              <span className="figure mt-10 text-[3.4rem] text-bone sm:text-[4rem]">{value}</span>
+              <span className="mt-2 text-[14px] text-bone-dim">{label}</span>
+            </a>
+          </Reveal>
         ))}
-      </dl>
-
-      <p className="body-copy mt-10 text-base">
-        Creator, host, and editor of &lsquo;Strategic Timeout&rsquo;. Built an
-        engaged following through on-camera storytelling, backed by
-        self-directed video editing in Adobe Premiere Pro.
-      </p>
-
-      <div className="mt-6 flex items-center gap-6">
-        <a
-          href="https://www.youtube.com/@StrategicTimeoutOfficial"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link-sweep inline-flex items-center gap-1.5 text-[13px] text-bone-dim"
-        >
-          <YoutubeIcon className="h-3.5 w-3.5" />
-          YouTube
-          <ArrowUpRight className="h-3 w-3 text-bone-mute" />
-        </a>
-        <a
-          href="https://www.instagram.com/strategic_timeout_official/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link-sweep inline-flex items-center gap-1.5 text-[13px] text-bone-dim"
-        >
-          <InstagramIcon className="h-3.5 w-3.5" />
-          Instagram
-          <ArrowUpRight className="h-3 w-3 text-bone-mute" />
-        </a>
-      </div>
+      </ul>
     </Section>
   );
 }

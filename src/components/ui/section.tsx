@@ -1,121 +1,66 @@
 import React from "react";
 import { cn } from "@/lib/utils";
-import { Reveal } from "@/components/ui/scroll-text";
+import { Reveal } from "@/components/ui/reveal";
 
 /**
- * The page's structural unit.
+ * The page's structural unit: a hairline, a small label, a serif title.
  *
- * Every section opens on a ruler tick rule with its name hanging in the
- * left margin — a marginal note, not a badge. The old pattern here was a
- * tracked-out ALL-CAPS eyebrow ("02 // BACKGROUND") over an identically
- * sized heading in every section, which gave the page no hierarchy and
- * numbered content that isn't a sequence.
+ * `split` puts the header in a narrow left column that stays pinned while
+ * the content scrolls past it — used for the shorter, list-shaped sections
+ * so they don't each spend a full screen on a heading.
  */
-
-type SectionProps = {
+export function Section({
+  id,
+  eyebrow,
+  title,
+  intro,
+  split = false,
+  children,
+  className,
+}: {
   id?: string;
-  /** Marginal note in the left rail. Sentence case. */
-  label: string;
+  eyebrow: string;
+  title: React.ReactNode;
+  intro?: React.ReactNode;
+  split?: boolean;
   children: React.ReactNode;
   className?: string;
-  /** Content spans the full shell instead of sitting in the rail grid. */
-  bleed?: boolean;
-};
+}) {
+  const header = (
+    <>
+      <Reveal as="p" className="eyebrow">
+        {eyebrow}
+      </Reveal>
+      <Reveal as="h2" delay={0.06} className="h-section mt-3 text-bone">
+        {title}
+      </Reveal>
+      {intro ? (
+        <Reveal as="p" delay={0.12} className="body-copy mt-5 max-w-[52ch]">
+          {intro}
+        </Reveal>
+      ) : null}
+    </>
+  );
 
-export function Section({ id, label, children, className, bleed }: SectionProps) {
   return (
     <section id={id} className={cn("relative", className)}>
       <div className="shell">
-        <div className="tick-rule" />
-      </div>
-
-      <div className="shell py-16 sm:py-20 lg:py-28">
-        {bleed ? (
-          <>
-            <RailLabel>{label}</RailLabel>
-            {children}
-          </>
-        ) : (
-          <div className="lg:grid lg:grid-cols-[132px_minmax(0,1fr)] lg:gap-12 xl:gap-16">
-            <div className="lg:pt-2">
-              <div className="lg:sticky lg:top-28">
-                <RailLabel>{label}</RailLabel>
+        <div className="border-t border-rule py-20 sm:py-24 lg:py-32">
+          {split ? (
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8">
+              <div className="lg:col-span-4">
+                <div className="lg:sticky lg:top-[calc(var(--nav-h)+2.5rem)]">{header}</div>
               </div>
+              <div className="min-w-0 lg:col-span-8">{children}</div>
             </div>
-            <div className="min-w-0">{children}</div>
-          </div>
-        )}
+          ) : (
+            <>
+              <div className="max-w-3xl">{header}</div>
+              {children}
+            </>
+          )}
+        </div>
       </div>
     </section>
-  );
-}
-
-function RailLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="rail-label mb-7 flex items-center gap-3 lg:mb-0 lg:flex-col lg:items-start lg:gap-2">
-      <span className="h-px w-6 bg-signal lg:w-8" aria-hidden="true" />
-      <span>{children}</span>
-    </div>
-  );
-}
-
-/**
- * Section heading. Scale and tracking do the shouting; the words don't.
- * `index` picks which side it swings in from, so consecutive sections
- * alternate rather than all sliding the same way.
- */
-export function SectionTitle({
-  children,
-  className,
-  index = 0,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  index?: number;
-}) {
-  return (
-    <Reveal as="h2" index={index} className={cn("h-section text-bone", className)}>
-      {children}
-    </Reveal>
-  );
-}
-
-/**
- * Spec list — replaces `A · B · C` middle-dot meta strings with real
- * structure: key above value, hairline separated, tabular figures.
- */
-export function SpecList({
-  items,
-  className,
-  columns = 3,
-}: {
-  items: { key: string; value: React.ReactNode; note?: string }[];
-  className?: string;
-  columns?: 2 | 3 | 4;
-}) {
-  const cols = {
-    2: "sm:grid-cols-2",
-    3: "sm:grid-cols-3",
-    4: "grid-cols-2 sm:grid-cols-4",
-  }[columns];
-
-  return (
-    <dl
-      className={cn(
-        "grid grid-cols-2 gap-x-6 gap-y-5 border-t border-rule pt-5",
-        cols,
-        className
-      )}
-    >
-      {items.map((item) => (
-        <div key={item.key} className="min-w-0">
-          <dt className="field-key">{item.key}</dt>
-          <dd className="h-block nums mt-1.5 text-bone">{item.value}</dd>
-          {item.note ? (
-            <dd className="mt-0.5 text-[11px] leading-snug text-bone-mute">{item.note}</dd>
-          ) : null}
-        </div>
-      ))}
-    </dl>
   );
 }

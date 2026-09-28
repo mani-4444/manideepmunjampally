@@ -1,35 +1,29 @@
-import React from "react";
-import { ArrowUpRight, ExternalLink } from "lucide-react";
+"use client";
+
+import React, { useId } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
-import { Reveal } from "@/components/ui/scroll-text";
-import { LiquidGlassCard, LiquidButton } from "@/components/ui/liquid-glass";
+import { Reveal } from "@/components/ui/reveal";
 
 export type CaseStudyData = {
   id: string;
   index: string;
   name: string;
   kind: string;
-  /** Who built it, scannable from the header rather than buried in prose. */
+  /** Who built it — scannable, because solo vs team changes how a
+   *  reviewer reads everything below it. */
   role: string;
-  /** The pull quote. One per case study — the only Poppins italic on the page. */
   lede: string;
   context?: string;
   href: string;
   linkKind: "repo" | "live";
-  hrefDisplay: string;
   tech: string[];
   blocks: { h: string; p: string }[];
-  highlights?: string[];
 };
 
-/**
- * Shared chrome for a case study.
- *
- * Each one previously repeated ~200 lines of near-identical markup with a
- * dot-joined meta row, a rounded-2xl shell, and a right column of boxes
- * nested three deep. Here the chrome is one component and the panel is the
- * only part that varies.
- */
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 export function CaseStudy({
   data,
   children,
@@ -37,138 +31,104 @@ export function CaseStudy({
   data: CaseStudyData;
   children: React.ReactNode;
 }) {
-  const LinkIcon = data.linkKind === "repo" ? GithubIcon : ExternalLink;
+  const live = data.linkKind === "live";
 
   return (
-    <article id={data.id} className="scroll-mt-28">
-      <div className="tick-rule" />
-
-      <div className="pt-8 sm:pt-10">
-        <div className="lg:grid lg:grid-cols-[132px_minmax(0,1fr)] lg:gap-12 xl:gap-16">
-          {/* Index numeral hangs in the rail, aligned with the section labels */}
-          <div className="hidden lg:block lg:pt-1">
-            <div className="lg:sticky lg:top-28">
-              <span className="font-data text-[13px] text-signal">{data.index}</span>
-            </div>
-          </div>
-
-          <div className="min-w-0">
-            {/* ── Header ─────────────────────────────────────────── */}
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-              <div className="min-w-0">
-                <div className="flex items-baseline gap-3">
-                  <span className="font-data text-[13px] text-signal lg:hidden">
-                    {data.index}
-                  </span>
-                  <Reveal as="h3" index={Number(data.index)} className="h-case text-bone">
-                    {data.name}
-                  </Reveal>
-                </div>
-
-                <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                  <span className="cell cell-signal">{data.role}</span>
-                  <span className="cell">{data.kind}</span>
-                  {data.context ? <span className="cell">{data.context}</span> : null}
-                </div>
-              </div>
-
-              <LiquidButton
-                href={data.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 self-start"
-              >
-                <LinkIcon className="h-4 w-4" aria-hidden="true" />
-                {data.linkKind === "repo" ? "View repo" : "Open live app"}
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </LiquidButton>
-            </div>
-
-            {/* ── Pull quote ─────────────────────────────────────── */}
-            <div className="mt-7 flex gap-4">
-              <span className="w-px shrink-0 self-stretch bg-signal/50" aria-hidden="true" />
-              <p className="lede-sm max-w-[54ch] text-bone">{data.lede}</p>
-            </div>
-
-            {/* ── Narrative + instrument panel ───────────────────── */}
-            <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
-              <div className="min-w-0">
-                {data.blocks.map((block) => (
-                  <div key={block.h} className="mb-7 last:mb-0">
-                    <h4 className="h-block !text-[13.5px] text-bone">{block.h}</h4>
-                    <p className="body-copy mt-2">{block.p}</p>
-                  </div>
-                ))}
-
-                {data.highlights?.length ? (
-                  <div className="mt-8 border-t border-rule pt-5">
-                    <span className="field-key">Engineering highlights</span>
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {data.highlights.map((h) => (
-                        <span key={h} className="cell cell-signal">{h}</span>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-
-                <div className="mt-6 border-t border-rule pt-5">
-                  <span className="field-key">Built with</span>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {data.tech.map((t) => (
-                      <span key={t} className="cell">{t}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="min-w-0">{children}</div>
-            </div>
-
-            <a
-              href={data.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-sweep font-data mt-10 inline-block text-[11.5px] text-bone-mute hover:text-bone"
-            >
-              {data.hrefDisplay}
-            </a>
-          </div>
+    <article
+      id={data.id}
+      data-case={data.id}
+      className="scroll-mt-28 border-t border-rule pt-12 first:border-t-0 first:pt-0 sm:pt-16 first:sm:pt-0"
+    >
+      <Reveal>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span className="font-data text-[12.5px] text-signal">{data.index}</span>
+          <span className="chip">{data.role}</span>
+          <span className="text-[13px] text-bone-mute">
+            {data.kind}
+            {data.context ? ` · ${data.context}` : ""}
+          </span>
         </div>
+
+        <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <h3 className="h-case text-bone">{data.name}</h3>
+          <a
+            href={data.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`btn btn-sm group shrink-0 self-start sm:self-auto ${
+              live ? "btn-primary" : "btn-secondary"
+            }`}
+          >
+            {live ? (
+              <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                <span className="ping absolute inset-0 rounded-full bg-emerald-500" />
+                <span className="relative h-1.5 w-1.5 rounded-full bg-emerald-600" />
+              </span>
+            ) : (
+              <GithubIcon className="h-3.5 w-3.5" />
+            )}
+            {live ? "Open live app" : "Source"}
+            <ArrowUpRight className="nudge h-3.5 w-3.5" aria-hidden="true" />
+          </a>
+        </div>
+
+        <p className="lede mt-5 max-w-[56ch]">{data.lede}</p>
+      </Reveal>
+
+      <div className="mt-10 grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] xl:gap-12">
+        <Reveal delay={0.06} className="min-w-0">
+          <div className="space-y-7">
+            {data.blocks.map((block) => (
+              <div key={block.h}>
+                <h4 className="h-block text-bone">{block.h}</h4>
+                <p className="body-copy mt-2">{block.p}</p>
+              </div>
+            ))}
+          </div>
+
+          <ul className="mt-8 flex flex-wrap gap-1.5" aria-label="Built with">
+            {data.tech.map((t) => (
+              <li key={t} className="chip">
+                {t}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <Reveal delay={0.14} className="min-w-0">
+          {children}
+        </Reveal>
       </div>
     </article>
   );
 }
 
-/** The instrument panel shell: one surface, not boxes nested three deep. */
+/** The interactive panel beside each case study. */
 export function Panel({
   title,
   badge,
-  badgeSignal,
   children,
 }: {
   title: string;
   badge?: string;
-  badgeSignal?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <LiquidGlassCard glassSize="sm" className="sm:p-6">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-3">
-        <span className="h-block !text-[13px] text-bone">{title}</span>
+    <div className="surface surface-hover p-5 sm:p-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-4">
+        <span className="h-block text-bone">{title}</span>
         {badge ? (
-          <span
-            className={`font-data text-[10.5px] ${badgeSignal ? "text-signal" : "text-bone-mute"}`}
-          >
+          <span className="font-data rounded-full border border-rule px-2.5 py-1 text-[10.5px] text-bone-mute">
             {badge}
           </span>
         ) : null}
       </div>
       <div className="mt-5 space-y-5">{children}</div>
-    </LiquidGlassCard>
+    </div>
   );
 }
 
-/** Segmented control for the interactive panels. */
+/** Segmented control; the active marker glides between options. */
 export function Tabs<T extends string>({
   label,
   options,
@@ -180,18 +140,17 @@ export function Tabs<T extends string>({
   value: T;
   onChange: (v: T) => void;
 }) {
+  const id = useId();
+  const reduceMotion = useReducedMotion();
+
   return (
     <div>
       <span className="field-key">{label}</span>
       <div
         role="tablist"
         aria-label={label}
-        className="mt-2.5 grid gap-1.5"
-        style={{
-          /* four options read better as 2x2 than as three across with an
-             orphan on the second row */
-          gridTemplateColumns: `repeat(${options.length === 4 ? 2 : options.length}, minmax(0, 1fr))`,
-        }}
+        className="mt-2.5 grid gap-1 rounded-xl border border-rule bg-ink p-1"
+        style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}
       >
         {options.map((opt) => {
           const active = opt.value === value;
@@ -202,17 +161,43 @@ export function Tabs<T extends string>({
               role="tab"
               aria-selected={active}
               onClick={() => onChange(opt.value)}
-              className={`rounded-machined border px-2.5 py-2 font-montserrat text-[12px] font-semibold tracking-tight transition-colors ${
-                active
-                  ? "border-signal bg-signal text-ink"
-                  : "border-rule text-bone-mute hover:border-rule-strong hover:text-bone"
+              className={`relative rounded-lg px-1.5 py-2 text-[12.5px] font-semibold tracking-tight transition-colors duration-300 ${
+                active ? "text-ink" : "text-bone-mute hover:text-bone"
               }`}
             >
-              {opt.label}
+              {active && (
+                <motion.span
+                  layoutId={`tab-${id}`}
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-lg bg-bone"
+                  transition={
+                    reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 36 }
+                  }
+                />
+              )}
+              <span className="relative">{opt.label}</span>
             </button>
           );
         })}
       </div>
     </div>
+  );
+}
+
+/** Cross-fades panel content when a tab changes. */
+export function Swap({ k, children }: { k: string; children: React.ReactNode }) {
+  const reduceMotion = useReducedMotion();
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <motion.div
+        key={k}
+        initial={reduceMotion ? false : { opacity: 0, y: 6, filter: "blur(4px)" }}
+        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+        exit={reduceMotion ? undefined : { opacity: 0, y: -4, filter: "blur(4px)" }}
+        transition={{ duration: 0.28, ease: EASE }}
+      >
+        {children}
+      </motion.div>
+    </AnimatePresence>
   );
 }

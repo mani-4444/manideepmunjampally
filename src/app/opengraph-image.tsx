@@ -22,10 +22,10 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const INK = "#000000";
-const BONE = "#EDE9E0";
-const BONE_DIM = "#A8A49C";
-const BONE_MUTE = "#6E6A63";
-const SIGNAL = "#FFC800";
+const BONE = "#EDEAE3";
+const BONE_DIM = "#AAA69E";
+const BONE_MUTE = "#7D7970";
+const SIGNAL = "#F0B43C";
 
 export default function Image() {
   return new ImageResponse(

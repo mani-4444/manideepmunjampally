@@ -1,223 +1,158 @@
-"use client";
-
 import Image from "next/image";
-import { ArrowUpRight, FileText } from "lucide-react";
-import { LiquidButton } from "@/components/ui/liquid-glass";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { GithubIcon } from "@/components/icons/GithubIcon";
+import { LinkedinIcon } from "@/components/icons/SocialIcons";
 
-/* His stack, read as one continuous line rather than twenty scattered
-   badges. Duplicated once in the markup so the loop is seamless. */
-const STACK = [
-  "Claude Code", "Python", "TypeScript", "C++", "SQL", "FastAPI", "React",
-  "Next.js", "Claude", "Gemini", "Groq", "Ollama", "Supabase", "Pandas",
-  "Whisper", "ElevenLabs", "Tailwind", "Vercel",
+/* The four facts a recruiter screens on, stated once. Each has its detail
+   further down the page; none of them are repeated in body copy. */
+const PROOF = [
+  {
+    key: "HackerRank Orchestrate",
+    value: "#93",
+    unit: "/ 3,062",
+    note: "Top 3.1% · September 2026",
+    accent: true,
+  },
+  { key: "CGPA", value: "9.74", unit: "/ 10", note: "Computer Science, CBIT" },
+  { key: "In production", value: "2", unit: "apps", note: "Deployed and public on Vercel" },
+  { key: "Algorithms", value: "200+", unit: "", note: "Problems solved in C++" },
 ];
 
-const SPECS = [
-  { k: "Institution", v: "CBIT Hyderabad", n: "Computer Science, class of 2028" },
-  { k: "CGPA", v: "9.74 / 10.00", n: "Undergraduate" },
-  { k: "Algorithms", v: "200+ solved", n: "C++, DP and game theory" },
-  // A rank without its denominator reads as ambiguous, and ambiguous reads
-  // as weak — 93rd of 3,062 is the top 3%.
-  { k: "HackerRank Orchestrate", v: "#93 of 3,062", n: "Top 3.1% · September 2026" },
-];
+const d = (s: number) => ({ animationDelay: `${s}s` });
 
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pt-[var(--nav-h)]">
-      <div className="blueprint pointer-events-none absolute inset-0" aria-hidden="true" />
-
-      {/* A single warm wash from the top — the only glow on the page */}
+      {/* One warm light from above-left; the only atmosphere on the page. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-signal/[0.07] blur-[130px]"
+        className="fade-in pointer-events-none absolute inset-x-0 top-0 h-[720px] bg-[radial-gradient(55%_60%_at_22%_0%,rgba(240,180,60,0.085),transparent_72%)]"
       />
 
-      <div className="shell relative pt-12 sm:pt-16 lg:pt-20">
-        {/* Availability sits above the fold on purpose: for intern hiring it
-            is the first filter a recruiter applies, and an undated profile is
-            the easiest one to pass over. */}
-        <div
-          className="rise flex flex-wrap items-center gap-x-4 gap-y-2"
-          style={{ animationDelay: "60ms" }}
-        >
-          <p className="font-montserrat text-[13px] font-semibold tracking-tight text-bone-dim">
-            Full-stack developer building generative-AI systems
-          </p>
-          <span className="inline-flex items-center gap-2 rounded-full border border-rule-signal px-3 py-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
-            <span className="field-key !text-signal">
-              Graduating 2028 · open to internships
-            </span>
-          </span>
-        </div>
-
-        {/* Display moment 1 of 2. Akira Expanded is an extremely wide face,
-            so it gets the full measure — squeezed into a column it can only
-            look like a mistake. */}
-        <h1 className="display-hero mt-5 text-bone">
-          <span className="block overflow-hidden pb-[0.06em]">
-            <span className="wipe block" style={{ animationDelay: "180ms" }}>
-              Manideep
-            </span>
-          </span>
-          <span className="block overflow-hidden pb-[0.06em]">
-            <span className="wipe block" style={{ animationDelay: "320ms" }}>
-              Munjampally
-            </span>
-          </span>
-        </h1>
-      </div>
-
-      <div className="shell mt-10 sm:mt-12">
-        <div className="tick-rule edge-draw" style={{ animationDelay: "520ms" }} />
-      </div>
-
-      <div className="shell relative pt-10 sm:pt-12">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="shell relative pb-20 pt-12 sm:pt-16 lg:pb-28 lg:pt-20">
+        <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_290px]">
           <div className="min-w-0">
-            {/* Who he is, in his own voice. This slot used to hold the
-                guardrail principle from Buy or Wait? — a single project's
-                architecture standing in as a claim about all the work,
-                which isn't true of the two apps with no LLM in them. That
-                line belongs to its case study and lives there now. */}
-            <div className="rise flex gap-4 sm:gap-5" style={{ animationDelay: "620ms" }}>
-              <span className="w-px shrink-0 self-stretch bg-signal/60" aria-hidden="true" />
-              <p className="lede max-w-[34ch] text-bone">
-                I&rsquo;m a computer science undergrad at CBIT who ships
-                production software, and I&rsquo;m going deeper into ML and
-                agentic AI.
-              </p>
+            <div className="rise flex items-center gap-3" style={d(0.05)}>
+              <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-rule-strong lg:hidden">
+                <Image
+                  src="/images/manideep.png"
+                  alt=""
+                  fill
+                  sizes="40px"
+                  className="object-cover object-top grayscale"
+                />
+              </span>
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-rule bg-bone/[0.03] py-1.5 pl-3 pr-3.5 text-[13px] font-medium text-bone-dim">
+                <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                  <span className="ping absolute inset-0 rounded-full bg-signal" />
+                  <span className="relative h-1.5 w-1.5 rounded-full bg-signal" />
+                </span>
+                Open to internships · Class of 2028
+              </span>
             </div>
 
-            {/* The body carries the specifics so the line above doesn't
-                have to repeat them. */}
-            <p className="rise body-copy mt-7" style={{ animationDelay: "700ms" }}>
-              Five systems so far: tiered LLM routing with an offline
-              fallback, a three-agent debate platform with a live voice
-              pipeline, a 90-day cash-flow simulator, and two web apps
-              running in production. 200+ algorithm problems in C++ alongside
-              them.
+            <h1 className="h-display mt-8 text-bone sm:mt-10">
+              <span className="line-mask">
+                <span className="line-rise" style={d(0.15)}>
+                  Manideep
+                </span>
+              </span>
+              <span className="line-mask">
+                <span className="line-rise" style={d(0.27)}>
+                  Munjampally
+                </span>
+              </span>
+            </h1>
+
+            <p className="rise lede mt-8 max-w-[38ch] sm:mt-10" style={d(0.5)}>
+              I&rsquo;m a computer science undergrad at CBIT who{" "}
+              <span className="text-bone">ships production software</span>, and
+              I&rsquo;m going deeper into{" "}
+              <span className="text-bone">ML and agentic AI</span>.
             </p>
 
-            <div
-              className="rise mt-9 flex flex-wrap items-center gap-2.5"
-              style={{ animationDelay: "780ms" }}
-            >
-              <LiquidButton href="#projects" tone="signal">
+            <div className="rise mt-9 flex flex-wrap items-center gap-2.5" style={d(0.62)}>
+              <a href="#work" className="btn btn-primary group">
                 See the work
-              </LiquidButton>
-              {/* Serves /public/resume.pdf — the one artefact a recruiter
-                  cannot run a hiring process without. */}
-              <LiquidButton href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-                <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                <ArrowDown className="nudge nudge-down h-4 w-4" aria-hidden="true" />
+              </a>
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary group hidden sm:inline-flex"
+              >
                 Resume
-              </LiquidButton>
-              <LiquidButton href="https://github.com/mani-4444" target="_blank" rel="noopener noreferrer">
-                GitHub
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </LiquidButton>
-              <LiquidButton
+                <ArrowUpRight className="nudge h-4 w-4" aria-hidden="true" />
+              </a>
+              {/* On phones the nav carries Resume, so it drops from this row. */}
+              <span className="mx-1 hidden h-5 w-px bg-rule-strong sm:block" aria-hidden="true" />
+              <a
+                href="https://github.com/mani-4444"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="btn btn-secondary w-11 !px-0"
+              >
+                <GithubIcon className="h-[18px] w-[18px]" />
+              </a>
+              <a
                 href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="btn btn-secondary w-11 !px-0"
               >
-                LinkedIn
-                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </LiquidButton>
+                <LinkedinIcon className="h-4 w-4" />
+              </a>
             </div>
           </div>
 
-          {/* Identity plate — square, bracketed, register-marked, rather than
-              a circular avatar floating in a blurred white halo. Square means
-              information in this system; the halo was decoration. */}
-          <div
-            className="rise relative w-full max-w-[280px] sm:max-w-[300px] lg:max-w-none"
-            style={{ animationDelay: "420ms" }}
-          >
-            <div className="flex items-stretch gap-3">
-              <div className="tick-rule-y shrink-0 self-stretch" aria-hidden="true" />
-
-              <div className="min-w-0 flex-1">
-                <div className="bracket relative aspect-[4/5] w-full border border-rule-strong">
-                  <Image
-                    src="/images/manideep.png"
-                    alt="Manideep Munjampally"
-                    fill
-                    sizes="(max-width: 1023px) 300px, 340px"
-                    className="object-cover object-top grayscale contrast-[1.18] brightness-[1.15]"
-                    priority
-                  />
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent"
-                  />
-                </div>
-
-                <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-rule pt-2.5">
-                  <span className="field-key">Hyderabad, IN</span>
-                  <span className="font-data text-[10.5px] text-bone-mute">
-                    17°23′N 78°28′E
-                  </span>
-                </div>
-              </div>
+          <figure className="rise hidden lg:block" style={d(0.35)}>
+            <div className="group relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-rule">
+              <Image
+                src="/images/manideep.png"
+                alt="Manideep Munjampally"
+                fill
+                priority
+                sizes="290px"
+                className="object-cover object-top grayscale transition-[filter,transform] duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03] group-hover:grayscale-0"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent"
+              />
             </div>
-          </div>
+            <figcaption className="mt-3 flex items-center justify-between text-[12.5px] text-bone-mute">
+              <span>Hyderabad, India</span>
+              <span className="font-data text-[11.5px]">IST · UTC+5:30</span>
+            </figcaption>
+          </figure>
         </div>
 
-        {/* Credentials, as a spec strip */}
         <dl
-          className="rise mt-14 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-rule pt-6 sm:mt-16 sm:grid-cols-4"
-          style={{ animationDelay: "860ms" }}
+          className="rise mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-rule bg-rule sm:mt-20 lg:mt-24 lg:grid-cols-4"
+          style={d(0.75)}
         >
-          {SPECS.map((item) => (
-            <div key={item.k} className="min-w-0">
-              {/* reserves two lines so a wrapping key doesn't drop its
-                  value out of line with the rest of the strip */}
-              <dt className="field-key min-h-[2.3em] leading-[1.15]">{item.k}</dt>
-              <dd className="h-block nums mt-1.5 text-bone">{item.v}</dd>
-              <dd className="mt-0.5 text-[11px] leading-snug text-bone-mute">{item.n}</dd>
+          {PROOF.map((item) => (
+            <div key={item.key} className="flex flex-col bg-ink p-5 sm:p-7">
+              <dt className="field-key">{item.key}</dt>
+              <dd className="mt-4 flex items-baseline gap-1.5">
+                <span
+                  className={`figure text-[2.6rem] sm:text-[3.1rem] ${
+                    item.accent ? "text-signal" : "text-bone"
+                  }`}
+                >
+                  {item.value}
+                </span>
+                {item.unit ? (
+                  <span className="figure text-lg text-bone-mute sm:text-xl">{item.unit}</span>
+                ) : null}
+              </dd>
+              <dd className="mt-2 text-[13px] leading-snug text-bone-mute">{item.note}</dd>
             </div>
           ))}
         </dl>
-      </div>
-
-      {/* Stack ticker */}
-      <div className="relative mt-14 sm:mt-16">
-        <div className="shell">
-          <div className="tick-rule" />
-        </div>
-
-        <div className="ticker-host relative overflow-hidden py-4">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-ink to-transparent sm:w-28"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-ink to-transparent sm:w-28"
-          />
-
-          <div className="ticker" aria-hidden="true">
-            {[0, 1].map((copy) => (
-              <div key={copy} className="flex shrink-0 items-center">
-                {STACK.map((tech) => (
-                  <span key={tech} className="flex shrink-0 items-center">
-                    <span
-                      className={`font-montserrat text-[12.5px] font-semibold tracking-tight ${
-                        tech.startsWith("Claude") ? "text-signal" : "text-bone-mute"
-                      }`}
-                    >
-                      {tech}
-                    </span>
-                    <span className="mx-5 h-[3px] w-[3px] shrink-0 bg-signal/70" />
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-
-          <span className="sr-only">Stack: {STACK.join(", ")}.</span>
-        </div>
       </div>
     </section>
   );

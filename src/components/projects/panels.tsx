@@ -5,7 +5,7 @@ import {
   Activity, Calculator, CheckCircle2, Cpu, HardDrive, Mic, ShieldCheck,
   TrendingUp, Volume2, Zap,
 } from "lucide-react";
-import { Panel, Tabs } from "./CaseStudy";
+import { Panel, Swap, Tabs } from "./CaseStudy";
 
 /* ============================================================
    01 — Affordability decision engine
@@ -56,7 +56,7 @@ export function AffordabilityPanel() {
   const active = STAGES[stage];
 
   return (
-    <Panel title="Affordability decision engine" badge="#93 of 3,062 · top 3.1%" badgeSignal>
+    <Panel title="Affordability decision engine" badge="Interactive">
       <div className="flex gap-3">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden="true" />
         <p className="body-copy !max-w-none !text-[13px] !leading-relaxed text-bone">
@@ -70,14 +70,15 @@ export function AffordabilityPanel() {
         value={stage}
         onChange={setStage}
         options={[
-          { value: "extraction", label: "1 · Extraction" },
-          { value: "reconciliation", label: "2 · Reconcile" },
-          { value: "simulation", label: "3 · Simulate" },
-          { value: "decision", label: "4 · Decide" },
+          { value: "extraction", label: "Extract" },
+          { value: "reconciliation", label: "Reconcile" },
+          { value: "simulation", label: "Simulate" },
+          { value: "decision", label: "Decide" },
         ]}
       />
 
       <div className="border-t border-rule pt-4">
+        <Swap k={stage}>
         <div className="flex items-start justify-between gap-3">
           <span className="h-block !text-[13px] flex items-center gap-2 text-bone">
             <Activity className="h-3.5 w-3.5 text-signal" aria-hidden="true" />
@@ -92,6 +93,7 @@ export function AffordabilityPanel() {
           </span>
         </div>
         <p className="body-copy !max-w-none mt-2 !text-[13px]">{active.body}</p>
+        </Swap>
       </div>
 
       {/* Pipeline trace */}
@@ -133,7 +135,7 @@ export function AffordabilityPanel() {
             { k: "Earliest date", v: "21 / 25" },
           ].map((m) => (
             <div key={m.k}>
-              <dt className="field-key !text-[9.5px]">{m.k}</dt>
+              <dt className="field-key">{m.k}</dt>
               <dd className="font-data mt-1 text-[13px] text-bone">{m.v}</dd>
             </div>
           ))}
@@ -191,11 +193,13 @@ export function DebatePanel() {
       />
 
       <div className="border-t border-rule pt-4">
+        <Swap k={agent}>
         <span className="h-block !text-[13px] flex items-center gap-2 text-bone">
           <TrendingUp className="h-3.5 w-3.5 text-signal" aria-hidden="true" />
           {active.title}
         </span>
         <p className="body-copy !max-w-none mt-2 !text-[13px]">{active.body}</p>
+        </Swap>
       </div>
 
       <div className="border-t border-rule pt-4">
@@ -272,14 +276,14 @@ export function FallbackPanel() {
   };
 
   return (
-    <Panel title="Inference fallback simulator" badge="Interactive" badgeSignal>
+    <Panel title="Inference fallback simulator" badge="Interactive">
       <Tabs
         label="Test runtime routing"
         value={mode}
         onChange={switchMode}
         options={[
-          { value: "primary", label: "Cloud normal" },
-          { value: "low_latency", label: "Latency spike" },
+          { value: "primary", label: "Normal" },
+          { value: "low_latency", label: "Slow cloud" },
           { value: "offline", label: "Offline" },
         ]}
       />
@@ -301,7 +305,7 @@ export function FallbackPanel() {
                 />
                 <span className="min-w-0">
                   <span
-                    className={`block font-montserrat text-[12.5px] font-semibold ${
+                    className={`block font-sans text-[12.5px] font-semibold ${
                       on ? "text-bone" : "text-bone-mute"
                     }`}
                   >
@@ -366,13 +370,13 @@ const CAPABILITIES = [
 
 export function CapabilitiesPanel() {
   return (
-    <Panel title="System capabilities" badge="Production live" badgeSignal>
+    <Panel title="System capabilities" badge="Production live">
       <div className="space-y-4">
         {CAPABILITIES.map(({ Icon, name, note }) => (
           <div key={name} className="flex gap-3 border-b border-rule pb-4 last:border-0 last:pb-0">
             <Icon className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden="true" />
             <div>
-              <div className="font-montserrat text-[12.5px] font-semibold text-bone">{name}</div>
+              <div className="font-sans text-[12.5px] font-semibold text-bone">{name}</div>
               <div className="mt-0.5 text-[11.5px] leading-relaxed text-bone-mute">{note}</div>
             </div>
           </div>
@@ -391,7 +395,7 @@ export function CalculationPanel() {
     <Panel title="Calculation logic" badge="Zero round-trip">
       <div>
         <span className="field-key">Target equation</span>
-        <pre className="font-data rounded-machined mt-2.5 overflow-x-auto border border-rule bg-ink p-3.5 text-[11.5px] leading-relaxed text-signal">
+        <pre className="font-data rounded-machined mt-2.5 whitespace-pre-wrap break-words border border-rule bg-ink p-3.5 text-[11.5px] leading-relaxed text-signal">
           <code>classes_needed = ceil((T × total − attended) / (1 − T))</code>
         </pre>
         <p className="mt-2 text-[11px] text-bone-mute">
