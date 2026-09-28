@@ -37,6 +37,24 @@
 
 :root {
   --nav-h: 68px;
+
+  /* The kokonutui glass rim, dark variant, verbatim */
+  --glass-rim:
+    0 0 8px rgba(0, 0, 0, 0.03),
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    inset 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.09),
+    inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
+    inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.6),
+    inset 0 0 6px 6px rgba(255, 255, 255, 0.12),
+    inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    0 0 12px rgba(0, 0, 0, 0.15);
+
+  /* Same geometry at lower intensity, for small controls */
+  --glass-rim-soft:
+    inset -1px -1px 0.5px -0.5px rgba(255, 255, 255, 0.45),
+    inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.3),
+    inset 0 0 4px 2px rgba(255, 255, 255, 0.06);
 }
 
 /* ------------------------------------------------------------
@@ -169,25 +187,83 @@ footer[id] {
   }
 
   /* ------------------------------------------------------------
-     Surfaces
+     Liquid glass
+     After the kokonutui Liquid Glass Card (MIT, @dorianbaffier):
+     https://kokonutui.com/docs/cards/liquid-glass-card
+
+     Two layers. The rim (the inset shadow stack, carried over
+     verbatim) reads as a bevelled edge catching light and works on
+     any background. The refraction (an SVG displacement map applied
+     as a backdrop filter, defined once in <GlassFilters />) needs
+     something behind the glass to bend, so it shows over the nav's
+     scrolling content and the light pools placed behind cards.
+
+     Browsers without backdrop-filter url() support (Safari, Firefox)
+     drop that declaration and keep the plain blur above it.
+
+     Never leave filter, opacity < 1 or backdrop-filter on an ancestor
+     of a glass element: each makes a backdrop root, and the glass then
+     refracts an empty layer instead of the page.
      ------------------------------------------------------------ */
 
-  /* Glass, restrained: a faint top-lit fill and one inner highlight
-     along the top edge. Enough to lift a panel off the black. */
-  .surface {
+  /* The rim is painted on ::after, above the refraction layer, never as
+     the element's own box-shadow: an own inset shadow paints before the
+     ::before backdrop, so the displacement would pick up the bright rim
+     and smear it into a wavy white band along every edge. */
+  .surface,
+  .glass {
     position: relative;
+    isolation: isolate;
     border-radius: 16px;
-    border: 1px solid rgba(237, 234, 227, 0.085);
-    background:
-      linear-gradient(180deg, rgba(237, 234, 227, 0.045), rgba(237, 234, 227, 0.012) 55%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 24px 48px -32px rgba(0, 0, 0, 0.9);
-    transition: border-color 0.4s var(--ease-out-soft);
+    background: rgba(237, 234, 227, 0.035);
   }
 
-  .surface-hover:hover {
-    border-color: rgba(237, 234, 227, 0.16);
+  .surface::before,
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(10px) saturate(150%);
+    backdrop-filter: blur(10px) saturate(150%);
+    backdrop-filter: blur(1px) url(#liquid-glass) saturate(150%);
+  }
+
+  /* Rim, plus (on .surface) a sheen that sweeps across on hover */
+  .surface::after,
+  .glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: var(--glass-rim);
+  }
+
+  .surface::after {
+    background: linear-gradient(105deg, transparent 35%, rgba(237, 234, 227, 0.08) 50%, transparent 65%);
+    background-size: 300% 100%;
+    background-position: 100% 0;
+    transition: background-position 0.9s var(--ease-out-soft);
+  }
+
+  /* The sheen gradient sits parked off the right edge until hover */
+  .surface:not(.surface-hover)::after {
+    background-image: none;
+  }
+
+  .surface-hover:hover::after {
+    background-position: 0% 0;
+  }
+
+  /* Segmented controls: glass, with the lighter rim a small part needs */
+  .glass-inset {
+    position: relative;
+    isolation: isolate;
+    background: rgba(0, 0, 0, 0.35);
+    box-shadow: var(--glass-rim-soft);
   }
 
   /* ------------------------------------------------------------
@@ -204,7 +280,8 @@ footer[id] {
     line-height: 1;
     color: #AAA69E;
     background: rgba(237, 234, 227, 0.035);
-    border: 1px solid rgba(237, 234, 227, 0.08);
+    border: 1px solid transparent;
+    box-shadow: var(--glass-rim-soft);
     border-radius: 999px;
     padding: 0.45rem 0.75rem;
     white-space: nowrap;
@@ -212,15 +289,21 @@ footer[id] {
 
   .chip-featured {
     color: #F0B43C;
-    background: rgba(240, 180, 60, 0.08);
-    border-color: rgba(240, 180, 60, 0.32);
+    background: rgba(240, 180, 60, 0.1);
+    box-shadow:
+      inset -1px -1px 0.5px -0.5px rgba(255, 214, 130, 0.7),
+      inset 1px 1px 1px -0.5px rgba(255, 214, 130, 0.45),
+      inset 0 0 4px 2px rgba(240, 180, 60, 0.12);
   }
 
   /* ------------------------------------------------------------
-     Actions
+     Actions: liquid glass buttons. The same rim, and the original's
+     spring to 105% on hover (pointer devices only).
      ------------------------------------------------------------ */
 
   .btn {
+    position: relative;
+    isolation: isolate;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -235,9 +318,21 @@ footer[id] {
     white-space: nowrap;
     transition:
       background-color 0.3s var(--ease-out-soft),
-      border-color 0.3s var(--ease-out-soft),
       color 0.3s var(--ease-out-soft),
-      transform 0.3s var(--ease-out-soft);
+      transform 0.35s var(--ease-out-soft);
+  }
+
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: var(--glass-rim);
+  }
+
+  @media (hover: hover) {
+    .btn:hover { transform: scale(1.05); }
   }
 
   .btn:active { transform: scale(0.97); }
@@ -251,14 +346,22 @@ footer[id] {
 
   .btn-secondary {
     color: #EDEAE3;
-    border: 1px solid rgba(237, 234, 227, 0.18);
-    background: rgba(237, 234, 227, 0.03);
+    background: rgba(237, 234, 227, 0.04);
   }
 
-  .btn-secondary:hover {
-    border-color: rgba(237, 234, 227, 0.4);
-    background: rgba(237, 234, 227, 0.07);
+  .btn-secondary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    backdrop-filter: blur(1px) url(#liquid-glass-strong);
   }
+
+  .btn-secondary:hover { background: rgba(237, 234, 227, 0.09); }
 
   .btn-sm {
     height: 2.25rem;
@@ -289,7 +392,7 @@ footer[id] {
 
 @keyframes rise {
   from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
+  to { opacity: 1; transform: none; filter: none; }
 }
 
 @keyframes line-rise {
@@ -331,6 +434,20 @@ footer[id] {
 
 .ping {
   animation: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Light pools: soft colour for the glass to refract. Placed behind
+   glass only; elsewhere the page stays flat black. */
+.pool {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(50px);
+  background: radial-gradient(closest-side, rgba(240, 180, 60, 0.24), transparent);
+}
+
+.pool-bone {
+  background: radial-gradient(closest-side, rgba(237, 234, 227, 0.12), transparent);
 }
 
 /* ------------------------------------------------------------

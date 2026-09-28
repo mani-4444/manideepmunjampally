@@ -1,20 +1,18 @@
 import { Section } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 
-/** Marked out wherever they appear: the tools he builds with day to day. */
-const FEATURED = new Set(["Claude Code", "Claude"]);
+/** The AI-native tools he builds with, marked out wherever they appear. */
+const FEATURED = new Set(["Claude Code", "Antigravity", "Claude"]);
 
-/* Grouped by job, AI first. Nearly all of these appear in a case study
-   above, which is what makes a skills list credible. */
+/* Trimmed to what signals in the AI era: the agentic tools first, then
+   the models his pipelines call, then the core he ships on. Filler
+   (GitHub beside Git, REST APIs beside FastAPI, charting libraries) is
+   left to the case studies. */
 const GROUPS = [
-  {
-    key: "AI & LLMs",
-    items: ["Claude", "Gemini", "Groq", "Ollama", "Whisper", "ElevenLabs", "Prompt engineering"],
-  },
-  { key: "Tooling", items: ["Claude Code", "Git", "GitHub", "Vercel"] },
-  { key: "Languages", items: ["Python", "TypeScript", "C++", "SQL"] },
-  { key: "Backend & data", items: ["FastAPI", "Supabase", "PostgreSQL", "MySQL", "Pandas", "REST APIs"] },
-  { key: "Frontend", items: ["React", "Next.js", "TanStack Query", "Tailwind CSS", "Recharts"] },
+  { key: "AI dev tools", items: ["Claude Code", "Antigravity", "Claude"] },
+  { key: "Models & inference", items: ["Gemini", "Groq", "Ollama", "Whisper", "ElevenLabs"] },
+  { key: "Languages", items: ["Python", "TypeScript", "C++"] },
+  { key: "Build & ship", items: ["Next.js", "React", "FastAPI", "Supabase", "Vercel", "Git"] },
 ];
 
 export function Stack() {
@@ -23,7 +21,7 @@ export function Stack() {
       id="stack"
       eyebrow="Stack"
       title="Tools I reach for."
-      intro="Claude Code is where I build. Gemini, Groq and local Ollama models run inside the pipelines I've shipped."
+      intro="Agentic IDEs are where I build: Claude Code and Antigravity. Gemini, Groq and local Ollama models run inside the pipelines I have shipped."
       split
     >
       <dl className="border-t border-rule">

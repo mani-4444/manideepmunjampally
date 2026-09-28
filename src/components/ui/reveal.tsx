@@ -25,6 +25,10 @@ const variants: Variants = {
     y: 0,
     filter: "blur(0px)",
     transition: { duration: 0.9, ease: EASE, delay },
+    // A leftover blur(0px) is still a filter, which makes this element a
+    // backdrop root: any liquid glass inside it would refract an empty
+    // layer instead of the page. Clear it once the reveal settles.
+    transitionEnd: { filter: "none" },
   }),
 };
 
@@ -33,7 +37,13 @@ const variants: Variants = {
    set opacity, the SSR blur and offset are never cleared. */
 const still: Variants = {
   hidden: { opacity: 1, y: 0, filter: "blur(0px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0 },
+    transitionEnd: { filter: "none" },
+  },
 };
 
 /** True once the element has touched the viewport. Every failure path reveals. */
