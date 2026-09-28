@@ -44,10 +44,35 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const TITLE = "Manideep Munjampally — Full-Stack & Generative AI Systems Developer";
+const DESCRIPTION =
+  "Manideep Munjampally — computer science undergrad at CBIT building full-stack products and generative-AI systems. Deployed web apps, tiered LLM pipelines, and multi-agent architectures.";
+
+/* Without metadataBase the social-card URL resolves against localhost, so the
+   preview breaks everywhere it matters. Derived rather than hardcoded: Vercel
+   supplies the production host itself, and NEXT_PUBLIC_SITE_URL overrides it
+   for a custom domain. */
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  ? process.env.NEXT_PUBLIC_SITE_URL
+  : process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "Manideep Munjampally — Full-Stack & Generative AI Systems Developer",
-  description:
-    "Manideep Munjampally — computer science undergrad at CBIT building full-stack products and generative-AI systems. Deployed web apps, tiered LLM pipelines, and multi-agent architectures.",
+  metadataBase: new URL(siteUrl),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    type: "profile",
+    siteName: "Manideep Munjampally",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

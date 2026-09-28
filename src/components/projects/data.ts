@@ -3,6 +3,7 @@ import type { CaseStudyData } from "./CaseStudy";
 export const PROJECTS: CaseStudyData[] = [
   {
     id: "buy-or-wait",
+    role: "Solo build",
     index: "01",
     name: "Buy or Wait?",
     kind: "Financial affordability AI",
@@ -16,7 +17,7 @@ export const PROJECTS: CaseStudyData[] = [
       "Hybrid LLM + deterministic architecture",
       "4-tier evidence reconciliation",
       "90-day cash-flow simulation",
-      "Rank #87",
+      "Rank #93",
     ],
     blocks: [
       {
@@ -35,6 +36,7 @@ export const PROJECTS: CaseStudyData[] = [
   },
   {
     id: "krishicfo",
+    role: "Team project · voice pipeline and pitch lead",
     index: "02",
     name: "KrishiCFO",
     kind: "Agricultural advisory AI",
@@ -61,6 +63,7 @@ export const PROJECTS: CaseStudyData[] = [
   },
   {
     id: "jarvis",
+    role: "Team of 5 · backend implementor",
     index: "03",
     name: "JARVIS",
     kind: "Tiered AI inference system",
@@ -86,6 +89,7 @@ export const PROJECTS: CaseStudyData[] = [
   },
   {
     id: "habittracker",
+    role: "Solo build",
     index: "04",
     name: "HabitTracker",
     kind: "Full-stack web app",
@@ -111,6 +115,7 @@ export const PROJECTS: CaseStudyData[] = [
   },
   {
     id: "attendance-analyzer",
+    role: "Solo build",
     index: "05",
     name: "Attendance Analyzer",
     kind: "Productivity tool",

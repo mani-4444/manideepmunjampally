@@ -56,7 +56,7 @@ export function AffordabilityPanel() {
   const active = STAGES[stage];
 
   return (
-    <Panel title="Affordability decision engine" badge="#87 · 67.7 / 100" badgeSignal>
+    <Panel title="Affordability decision engine" badge="#93 of 3,062 · top 3.1%" badgeSignal>
       <div className="flex gap-3">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-signal" aria-hidden="true" />
         <p className="body-copy !max-w-none !text-[13px] !leading-relaxed text-bone">

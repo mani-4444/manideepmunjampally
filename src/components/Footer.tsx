@@ -1,8 +1,9 @@
-import { Code2, Mail } from "lucide-react";
+import { Code2, FileText, Mail } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/SocialIcons";
 
 const CHANNELS = [
+  { label: "Resume (PDF)", href: "/resume.pdf", Icon: FileText },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/manideep-munjampally-771254386/", Icon: LinkedinIcon },
   { label: "GitHub", href: "https://github.com/mani-4444", Icon: GithubIcon },
   { label: "LeetCode", href: "https://leetcode.com/Yo7vJoRqBP", Icon: Code2 },
@@ -24,8 +25,9 @@ export function Footer() {
                 so "Let's" silently renders as "Lets". */}
             <h2 className="display-sign mt-4 text-bone">Available for internships</h2>
             <p className="body-copy mt-5 max-w-[52ch] text-base">
-              Software Engineering, Full-Stack, or Generative AI. Open to
-              discussing system architecture, latency, and code.
+              Software Engineering, Full-Stack, or Generative AI. Graduating
+              2028 from CBIT Hyderabad. Open to discussing system
+              architecture, latency, and code.
             </p>
 
             <a
@@ -56,7 +58,7 @@ export function Footer() {
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-rule pt-7 text-[11px] text-bone-faint sm:flex-row">
           <div>&copy; {new Date().getFullYear()} Manideep Munjampally</div>
           <div className="font-data flex items-center gap-3">
-            <span>CBIT CSE</span>
+            <span>CBIT CSE 2028</span>
             <span aria-hidden="true">/</span>
             <span>9.74 CGPA</span>
             <span aria-hidden="true">/</span>

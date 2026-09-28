@@ -8,6 +8,8 @@ export type CaseStudyData = {
   index: string;
   name: string;
   kind: string;
+  /** Who built it, scannable from the header rather than buried in prose. */
+  role: string;
   /** The pull quote. One per case study — the only Poppins italic on the page. */
   lede: string;
   context?: string;
@@ -63,6 +65,7 @@ export function CaseStudy({
                 </div>
 
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                  <span className="cell cell-signal">{data.role}</span>
                   <span className="cell">{data.kind}</span>
                   {data.context ? <span className="cell">{data.context}</span> : null}
                 </div>

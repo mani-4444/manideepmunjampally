@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, FileText } from "lucide-react";
 
 /* His stack, read as one continuous line rather than twenty scattered
    badges. Duplicated once in the markup so the loop is seamless. */
@@ -12,10 +12,12 @@ const STACK = [
 ];
 
 const SPECS = [
-  { k: "Institution", v: "CBIT Hyderabad", n: "Computer Science" },
+  { k: "Institution", v: "CBIT Hyderabad", n: "Computer Science, class of 2028" },
   { k: "CGPA", v: "9.74 / 10.00", n: "Undergraduate" },
   { k: "Algorithms", v: "200+ solved", n: "C++, DP and game theory" },
-  { k: "HackerRank Orchestrate", v: "Rank #87", n: "67.7 / 100" },
+  // A rank without its denominator reads as ambiguous, and ambiguous reads
+  // as weak — 93rd of 3,062 is the top 3%.
+  { k: "HackerRank Orchestrate", v: "#93 of 3,062", n: "Top 3.1% · September 2026" },
 ];
 
 export function Hero() {
@@ -30,12 +32,23 @@ export function Hero() {
       />
 
       <div className="shell relative pt-12 sm:pt-16 lg:pt-20">
-        <p
-          className="rise font-montserrat text-[13px] font-semibold tracking-tight text-bone-dim"
+        {/* Availability sits above the fold on purpose: for intern hiring it
+            is the first filter a recruiter applies, and an undated profile is
+            the easiest one to pass over. */}
+        <div
+          className="rise flex flex-wrap items-center gap-x-4 gap-y-2"
           style={{ animationDelay: "60ms" }}
         >
-          Full-stack developer building generative-AI systems
-        </p>
+          <p className="font-montserrat text-[13px] font-semibold tracking-tight text-bone-dim">
+            Full-stack developer building generative-AI systems
+          </p>
+          <span className="inline-flex items-center gap-2 rounded-full border border-rule-signal px-3 py-1">
+            <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
+            <span className="field-key !text-signal">
+              Graduating 2028 · open to internships
+            </span>
+          </span>
+        </div>
 
         {/* Display moment 1 of 2. Akira Expanded is an extremely wide face,
             so it gets the full measure — squeezed into a column it can only
@@ -91,6 +104,17 @@ export function Hero() {
             >
               <a href="#projects" className="btn btn-signal">
                 See the work
+              </a>
+              {/* Serves /public/resume.pdf — the one artefact a recruiter
+                  cannot run a hiring process without. */}
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-ghost"
+              >
+                <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+                Resume
               </a>
               <a
                 href="https://github.com/mani-4444"

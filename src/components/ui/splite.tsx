@@ -11,7 +11,11 @@ interface SplineSceneProps {
 
 export function SplineScene({ scene, className }: SplineSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const [status, setStatus] = useState<'loading' | 'ready' | 'stalled'>('loading')
+  // The Spline runtime is a heavy WebGL payload. Nothing is fetched until the
+  // scene is close to the viewport, so arriving at the page (often on a phone,
+  // on mobile data) doesn't pay for a section far below the fold.
+  const [near, setNear] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'stalled'>('idle')
 
   useEffect(() => {
     const el = containerRef.current
@@ -30,8 +34,32 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
     }
   }, [])
 
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setNear(true)
+      setStatus('loading')
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setNear(true)
+          setStatus('loading')
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '500px 0px' }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   // A WebGL scene can fail quietly — blocked context, slow network, no GPU.
-  // Without this the panel just sits there as an empty bordered box.
+  // Without this the panel just sits there as an empty bordered box. The clock
+  // only starts once loading actually begins.
   useEffect(() => {
     if (status !== 'loading') return
     const timer = window.setTimeout(() => {
@@ -66,25 +94,27 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
     <div ref={containerRef} className={`relative ${className || ''}`}>
       {status !== 'ready' && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-ink">
-          {status === 'loading' ? (
-            <span className="loader" role="status" aria-label="Loading 3D scene" />
-          ) : (
+          {status === 'stalled' ? (
             <span className="field-key px-6 text-center !text-[10px] leading-relaxed">
               3D scene unavailable
             </span>
-          )}
+          ) : status === 'loading' ? (
+            <span className="loader" role="status" aria-label="Loading 3D scene" />
+          ) : null}
         </div>
       )}
 
-      <Suspense
-        fallback={
-          <div className="flex h-full w-full items-center justify-center">
-            <span className="loader" role="status" aria-label="Loading 3D scene" />
-          </div>
-        }
-      >
-        <Spline scene={scene} className="w-full h-full" onLoad={handleSplineLoad} />
-      </Suspense>
+      {near && (
+        <Suspense
+          fallback={
+            <div className="flex h-full w-full items-center justify-center">
+              <span className="loader" role="status" aria-label="Loading 3D scene" />
+            </div>
+          }
+        >
+          <Spline scene={scene} className="w-full h-full" onLoad={handleSplineLoad} />
+        </Suspense>
+      )}
     </div>
   )
 }
