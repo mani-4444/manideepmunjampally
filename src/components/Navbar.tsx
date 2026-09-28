@@ -1,103 +1,179 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "framer-motion";
+
+const NAV = [
+  { id: "work", label: "Work" },
+  { id: "recognition", label: "Recognition" },
+  { id: "stack", label: "Stack" },
+  { id: "background", label: "Background" },
+  { id: "contact", label: "Contact" },
+] as const;
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function Navbar() {
-  const [activeTab, setActiveTab] = useState<string>("about");
+  const [active, setActive] = useState<string | null>(null);
+  const [lifted, setLifted] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  /* Tucks away while reading downward, returns the moment the reader
+     scrolls up — the usual intent to navigate. */
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    setLifted(y > 16);
+    if (open) return;
+    setHidden(y > 480 && y > prev + 4);
+    if (y < prev - 4) setHidden(false);
+  });
 
   useEffect(() => {
-    const sections = ["about", "projects", "skills", "achievements"];
-    const handleScroll = () => {
-      const scrollY = window.scrollY + 250;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el && el.offsetTop <= scrollY) {
-          setActiveTab(sections[i]);
-          break;
-        }
-      }
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-30% 0px -60% 0px", threshold: [0, 0.25, 0.5, 1] }
+    );
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    NAV.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    const onTop = () => {
+      if (window.scrollY < 200) setActive(null);
+    };
+    window.addEventListener("scroll", onTop, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onTop);
+    };
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-6 py-6 flex items-center justify-between">
-      {/* Spacer for symmetrical center alignment */}
-      <div className="hidden lg:block w-32" />
-
-      {/* Floating Centered Pill Capsule */}
-      <nav className="pointer-events-auto mx-auto border border-white/15 bg-black/80 backdrop-blur-xl rounded-full px-5 py-2 flex items-center gap-3 sm:gap-5 shadow-2xl">
-        {/* Monogram / Brand */}
+    <motion.header
+      initial={false}
+      animate={{ y: hidden && !reduceMotion ? "-100%" : "0%" }}
+      transition={{ duration: 0.45, ease: EASE }}
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-500 ${
+        lifted || open
+          ? "border-rule bg-ink/75 backdrop-blur-xl backdrop-saturate-150"
+          : "border-transparent"
+      }`}
+    >
+      <div className="shell flex items-center justify-between gap-6" style={{ height: "var(--nav-h)" }}>
         <a
-          href="#"
-          className="font-montserrat font-extrabold text-xs tracking-wider text-white hover:text-white/80 transition-colors uppercase whitespace-nowrap"
+          href="#top"
+          aria-label="Manideep Munjampally, back to top"
+          className="font-serif text-[19px] tracking-[-0.02em] text-bone"
         >
-          MANIDEEP MUNJAMPALLY
+          Manideep Munjampally
         </a>
 
-        {/* Tab Switcher Pills */}
-        <div className="flex items-center gap-1 bg-white/5 p-1 rounded-full border border-white/5">
+        <nav aria-label="Sections" className="hidden items-center md:flex">
+          {NAV.map((item) => {
+            const isActive = active === item.id;
+            return (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                aria-current={isActive ? "true" : undefined}
+                className={`relative rounded-full px-3.5 py-1.5 text-[13.5px] font-medium transition-colors duration-300 ${
+                  isActive ? "text-bone" : "text-bone-mute hover:text-bone"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    aria-hidden="true"
+                    className="absolute inset-0 -z-10 rounded-full bg-bone/[0.08]"
+                    transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                  />
+                )}
+                {item.label}
+              </a>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center gap-2">
           <a
-            href="#about"
-            onClick={() => setActiveTab("about")}
-            className={`text-xs font-montserrat px-3.5 py-1 rounded-full transition-all ${
-              activeTab === "about"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary btn-sm"
           >
-            ABOUT
+            Resume
           </a>
-          <a
-            href="#projects"
-            onClick={() => setActiveTab("projects")}
-            className={`text-xs font-montserrat px-3.5 py-1 rounded-full transition-all ${
-              activeTab === "projects"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
+
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-rule-strong md:hidden"
           >
-            PROJECTS
-          </a>
-          <a
-            href="#skills"
-            onClick={() => setActiveTab("skills")}
-            className={`hidden sm:inline-block text-xs font-montserrat px-3.5 py-1 rounded-full transition-all ${
-              activeTab === "skills"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
-          >
-            SKILLS
-          </a>
-          <a
-            href="#achievements"
-            onClick={() => setActiveTab("achievements")}
-            className={`hidden md:inline-block text-xs font-montserrat px-3.5 py-1 rounded-full transition-all ${
-              activeTab === "achievements"
-                ? "bg-white text-black font-bold shadow-sm"
-                : "text-neutral-400 hover:text-white font-medium"
-            }`}
-          >
-            HONORS
-          </a>
+            <span
+              className={`absolute h-px w-4 bg-bone transition-transform duration-300 ${
+                open ? "rotate-45" : "-translate-y-[3px]"
+              }`}
+            />
+            <span
+              className={`absolute h-px w-4 bg-bone transition-transform duration-300 ${
+                open ? "-rotate-45" : "translate-y-[3px]"
+              }`}
+            />
+          </button>
         </div>
-
-
-      </nav>
-
-      {/* Top Right "LET'S TALK" Pill Button */}
-      <div className="pointer-events-auto">
-        <a
-          href="#contact"
-          className="inline-flex items-center justify-center border border-white/25 hover:border-white/80 bg-black/60 backdrop-blur-md text-white font-montserrat text-xs font-medium tracking-widest uppercase px-5 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-lg"
-        >
-          LET&apos;S TALK
-        </a>
       </div>
-    </header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.nav
+            id="mobile-nav"
+            aria-label="Sections"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="overflow-hidden md:hidden"
+          >
+            <ul className="shell pb-6 pt-1">
+              {NAV.map((item, i) => (
+                <motion.li
+                  key={item.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: EASE, delay: 0.04 * i }}
+                >
+                  <a
+                    href={`#${item.id}`}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between border-b border-rule py-3.5 font-serif text-2xl tracking-[-0.02em] text-bone"
+                  >
+                    {item.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

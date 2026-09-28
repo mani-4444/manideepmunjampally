@@ -1,43 +1,61 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Montserrat, Poppins, Open_Sans } from "next/font/google";
+import { Newsreader, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-
-const akira = localFont({
-  src: "../../public/fonts/Akira-Expanded.otf",
-  variable: "--font-akira",
-  display: "swap",
-  weight: "900",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["italic", "normal"],
-  variable: "--font-poppins",
-  display: "swap",
-});
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-open-sans",
-  display: "swap",
-});
-
 import { SmoothScroll } from "@/components/SmoothScroll";
 
+/* Display and headings. Variable, with the optical-size axis loaded so
+   large settings draw with finer strokes automatically. */
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  axes: ["opsz"],
+  style: ["normal", "italic"],
+  variable: "--font-newsreader",
+  display: "swap",
+});
+
+/* Interface and reading text. */
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-hanken",
+  display: "swap",
+});
+
+/* Machine output only. Not variable, so weights are listed. */
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
+  display: "swap",
+});
+
+const TITLE = "Manideep Munjampally — Software Engineer, Full-Stack & Applied AI";
+const DESCRIPTION =
+  "Computer science undergrad at CBIT Hyderabad building full-stack products and generative-AI systems. #93 of 3,062 at HackerRank Orchestrate. Open to internships.";
+
+/* Without metadataBase the social-card URL resolves against localhost.
+   Vercel supplies the production host; NEXT_PUBLIC_SITE_URL overrides it
+   for a custom domain. */
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  ? process.env.NEXT_PUBLIC_SITE_URL
+  : process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "Manideep Munjampally — Full-Stack & Generative AI Systems Developer",
-  description:
-    "Portfolio of Manideep Munjampally. Full-stack developer and AI systems builder shipping real, deployed software with multi-tier LLM integrations.",
+  metadataBase: new URL(siteUrl),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    type: "profile",
+    siteName: "Manideep Munjampally",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -48,9 +66,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${akira.variable} ${montserrat.variable} ${poppins.variable} ${openSans.variable} scroll-smooth`}
+      className={`${newsreader.variable} ${hanken.variable} ${plexMono.variable}`}
     >
-      <body className="bg-black text-white font-sans antialiased selection:bg-white selection:text-black min-h-screen">
+      <head>
+        {/* Scroll reveals are an enhancement: without JS the content must
+            still be visible rather than held at its hidden state. */}
+        <noscript>
+          <style>{`.reveal-guard{opacity:1!important;transform:none!important;filter:none!important}`}</style>
+        </noscript>
+      </head>
+      <body className="min-h-screen bg-ink text-bone antialiased">
         <SmoothScroll />
         {children}
       </body>

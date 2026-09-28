@@ -1,74 +1,373 @@
 @import "tailwindcss";
 
-@theme {
-  --color-canvas: #000000;
-  --color-surface: #0A0A0A;
-  --color-surface-elevated: #121212;
-  --color-border-subtle: rgba(255, 255, 255, 0.08);
-  --color-border-strong: rgba(255, 255, 255, 0.2);
-  --color-signal: #FFFFFF;
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #D4D4D8;
-  --color-text-muted: #71717A;
+/* ============================================================
+   DESIGN SYSTEM
+   Black page, bone type, one amber accent used sparingly.
+   Three faces with fixed jobs:
+     serif (Newsreader)  — display and headings
+     sans  (Hanken)      — interface and reading
+     mono  (Plex Mono)   — machine output: telemetry, equations
+   ============================================================ */
 
-  --font-akira: var(--font-akira), sans-serif;
-  --font-montserrat: var(--font-montserrat), sans-serif;
-  --font-poppins: var(--font-poppins), sans-serif;
-  --font-open-sans: var(--font-open-sans), sans-serif;
+@theme {
+  --color-ink: #000000;
+  --color-ink-raise: #0C0C0B;
+
+  --color-bone: #EDEAE3;
+  --color-bone-dim: #AAA69E;
+  --color-bone-mute: #7D7970;
+  --color-bone-faint: #4A4742;
+
+  --color-signal: #F0B43C;
+  --color-signal-deep: #B8872A;
+
+  --color-rule: rgba(237, 234, 227, 0.09);
+  --color-rule-strong: rgba(237, 234, 227, 0.2);
+  --color-rule-signal: rgba(240, 180, 60, 0.4);
+
+  --radius-machined: 8px;
+  --radius-panel: 16px;
+
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
-  --font-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --nav-h: 68px;
 }
 
+/* ------------------------------------------------------------
+   Base
+   ------------------------------------------------------------ */
+
 html {
-  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: var(--font-open-sans), var(--font-fallback);
+  font-family: var(--font-sans);
   background-color: #000000;
-  color: #FFFFFF;
+  color: #EDEAE3;
   overflow-x: hidden;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
 }
 
-/* Specific font utility classes */
-.font-akira {
-  font-family: var(--font-akira), sans-serif;
-  letter-spacing: 0.04em;
+::selection {
+  background: #F0B43C;
+  color: #000000;
 }
 
-.font-montserrat {
-  font-family: var(--font-montserrat), sans-serif;
-}
-
-.font-poppins-italic {
-  font-family: var(--font-poppins), sans-serif;
-  font-style: italic;
-}
-
-.font-open-sans {
-  font-family: var(--font-open-sans), sans-serif;
-}
-
-/* Background wireframe triangle grid matching Rahul's aesthetic */
-.bg-wireframe-grid {
-  background-color: #000000;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                    linear-gradient(60deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(-60deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 80px 80px, 80px 80px, 80px 138.56px, 80px 138.56px;
-  background-position: 0 0, 0 0, 0 0, 0 0;
-}
-
-/* Visible accessibility focus rings */
 :focus-visible {
-  outline: 2px solid #FFFFFF;
+  outline: 2px solid #F0B43C;
   outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* Accessibility: respect user prefers-reduced-motion */
+section[id],
+footer[id] {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+/* ------------------------------------------------------------
+   Type roles
+   ------------------------------------------------------------ */
+
+@layer components {
+  .font-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Newsreader carries an optical-size axis, so the same face draws
+     finer, higher-contrast strokes at display sizes on its own. */
+  .h-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(3rem, 14.5vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+
+  @media (min-width: 1024px) {
+    .h-display { font-size: clamp(3rem, 9.4vw, 8.5rem); }
+  }
+
+  .h-section {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 4.6vw, 3.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.028em;
+    text-wrap: balance;
+  }
+
+  .h-case {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+  }
+
+  .h-block {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .figure {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+
+  .lede {
+    font-family: var(--font-sans);
+    font-size: clamp(1.075rem, 1.5vw, 1.3rem);
+    line-height: 1.55;
+    letter-spacing: -0.012em;
+    color: #AAA69E;
+    text-wrap: pretty;
+  }
+
+  .body-copy {
+    font-family: var(--font-sans);
+    font-size: 0.96875rem;
+    line-height: 1.7;
+    color: #AAA69E;
+    max-width: 64ch;
+    text-wrap: pretty;
+  }
+
+  .body-copy strong {
+    color: #EDEAE3;
+    font-weight: 600;
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.8125rem;
+    letter-spacing: 0;
+    color: #7D7970;
+  }
+
+  .field-key {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.005em;
+    color: #7D7970;
+  }
+
+  /* ------------------------------------------------------------
+     Surfaces
+     ------------------------------------------------------------ */
+
+  /* Glass, restrained: a faint top-lit fill and one inner highlight
+     along the top edge. Enough to lift a panel off the black. */
+  .surface {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid rgba(237, 234, 227, 0.085);
+    background:
+      linear-gradient(180deg, rgba(237, 234, 227, 0.045), rgba(237, 234, 227, 0.012) 55%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 24px 48px -32px rgba(0, 0, 0, 0.9);
+    transition: border-color 0.4s var(--ease-out-soft);
+  }
+
+  .surface-hover:hover {
+    border-color: rgba(237, 234, 227, 0.16);
+  }
+
+  /* ------------------------------------------------------------
+     Chips — information, never action
+     ------------------------------------------------------------ */
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.78125rem;
+    line-height: 1;
+    color: #AAA69E;
+    background: rgba(237, 234, 227, 0.035);
+    border: 1px solid rgba(237, 234, 227, 0.08);
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  .chip-featured {
+    color: #F0B43C;
+    background: rgba(240, 180, 60, 0.08);
+    border-color: rgba(240, 180, 60, 0.32);
+  }
+
+  /* ------------------------------------------------------------
+     Actions
+     ------------------------------------------------------------ */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding-inline: 1.2rem;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    transition:
+      background-color 0.3s var(--ease-out-soft),
+      border-color 0.3s var(--ease-out-soft),
+      color 0.3s var(--ease-out-soft),
+      transform 0.3s var(--ease-out-soft);
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    background: #EDEAE3;
+    color: #000000;
+  }
+
+  .btn-primary:hover { background: #FFFFFF; }
+
+  .btn-secondary {
+    color: #EDEAE3;
+    border: 1px solid rgba(237, 234, 227, 0.18);
+    background: rgba(237, 234, 227, 0.03);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(237, 234, 227, 0.4);
+    background: rgba(237, 234, 227, 0.07);
+  }
+
+  .btn-sm {
+    height: 2.25rem;
+    padding-inline: 0.95rem;
+    font-size: 0.8125rem;
+  }
+
+  .nudge { transition: transform 0.35s var(--ease-out-soft); }
+  .group:hover .nudge { transform: translate(2px, -2px); }
+  .group:hover .nudge-down { transform: translateY(2px); }
+
+  /* Underline that draws in from the left */
+  .link-u {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.45s var(--ease-out-soft), color 0.3s ease;
+  }
+
+  .link-u:hover { background-size: 100% 1px; }
+}
+
+/* ------------------------------------------------------------
+   Load motion — the hero only. Everything below the fold uses
+   the <Reveal> component, which shares this curve.
+   ------------------------------------------------------------ */
+
+@keyframes rise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+@keyframes line-rise {
+  from { transform: translate3d(0, 105%, 0); }
+  to { transform: none; }
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.55; }
+  80%, 100% { transform: scale(2.6); opacity: 0; }
+}
+
+.rise {
+  animation: rise 1s var(--ease-out-soft) both;
+}
+
+.fade-in {
+  animation: fade 1.2s var(--ease-out-soft) both;
+}
+
+/* Serif descenders (the p and y in the surname) sit below the line box,
+   so the mask is padded down and pulled back to keep the rhythm. */
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.line-rise {
+  display: block;
+  animation: line-rise 1.15s var(--ease-out-soft) both;
+}
+
+.ping {
+  animation: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* ------------------------------------------------------------
+   Layout
+   ------------------------------------------------------------ */
+
+.shell {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .shell { padding-inline: 2rem; }
+}
+
+.nums { font-variant-numeric: tabular-nums; }
+
+.loader {
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgba(237, 234, 227, 0.16);
+  border-bottom-color: #F0B43C;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 0.9s linear infinite;
+}
+
+@keyframes rotation {
+  to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------ */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -78,25 +377,8 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
 
-/* Fallback spinner loader */
-.loader {
-  width: 32px;
-  height: 32px;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-  border-bottom-color: #FFFFFF;
-  border-radius: 50%;
-  display: inline-block;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-}
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  .rise, .fade-in { opacity: 1; transform: none; filter: none; }
+  .line-rise { transform: none; }
+  .ping { display: none; }
 }

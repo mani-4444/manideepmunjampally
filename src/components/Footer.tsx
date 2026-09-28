@@ -1,87 +1,72 @@
-"use client";
+import { ArrowUpRight } from "lucide-react";
+import { Reveal } from "@/components/ui/reveal";
 
-import React from "react";
-import { Mail, Code2, ArrowUpRight } from "lucide-react";
-import { GithubIcon } from "@/components/icons/GithubIcon";
-import { LinkedinIcon } from "@/components/icons/SocialIcons";
+const EMAIL = "manideepmunjampally4@gmail.com";
+
+const CHANNELS = [
+  { label: "GitHub", href: "https://github.com/mani-4444" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/manideep-munjampally-771254386/" },
+  { label: "LeetCode", href: "https://leetcode.com/Yo7vJoRqBP" },
+  { label: "Resume", href: "/resume.pdf" },
+];
 
 export function Footer() {
   return (
-    <footer id="contact" className="py-20 bg-black border-t border-white/10 text-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 border-b border-white/10 pb-16">
-          <div className="max-w-xl">
-            <div className="text-xs font-montserrat tracking-[0.25em] text-neutral-400 uppercase mb-2">
-              CONTACT &amp; CHANNELS
-            </div>
-            <h3 className="font-montserrat text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-3">
-              Ready to ship together?
-            </h3>
-            <p className="font-open-sans text-sm text-neutral-400 leading-relaxed">
-              Seeking Software Engineering, Full-Stack, or Generative AI internship opportunities.
-              Always open to discussing system architecture, latency, and code.
-            </p>
-          </div>
+    <footer id="contact" className="relative overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[520px] bg-[radial-gradient(50%_60%_at_20%_100%,rgba(240,180,60,0.07),transparent_72%)]"
+      />
 
-          {/* Direct channels & social icons */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 shrink-0">
-            {/* Primary Email CTA */}
+      <div className="shell relative">
+        <div className="border-t border-rule pb-10 pt-20 sm:pt-28 lg:pt-36">
+          <Reveal as="p" className="eyebrow">
+            Contact
+          </Reveal>
+          <Reveal as="h2" delay={0.06} className="h-section mt-4 max-w-[16ch] !text-[clamp(2.6rem,6.4vw,5.5rem)] text-bone">
+            Let&rsquo;s build something worth shipping.
+          </Reveal>
+          <Reveal as="p" delay={0.12} className="lede mt-6 max-w-[46ch]">
+            Looking for internships in software engineering and applied AI.
+            The fastest way to reach me is email.
+          </Reveal>
+
+          <Reveal delay={0.18} className="mt-10">
             <a
-              href="mailto:manideepmunjampally@gmail.com"
-              className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-neutral-200 text-black text-xs font-montserrat font-bold uppercase tracking-wider px-6 py-3.5 rounded-full transition-all hover:scale-105 active:scale-95 shadow-xl whitespace-nowrap"
+              href={`mailto:${EMAIL}`}
+              className="group inline-flex items-center gap-3 font-serif text-[clamp(1.35rem,3.4vw,2.4rem)] tracking-[-0.02em] text-bone"
             >
-              <Mail className="w-4 h-4 text-black" />
-              <span>EMAIL MANIDEEP</span>
+              <span className="link-u break-all">{EMAIL}</span>
+              <ArrowUpRight
+                className="nudge h-6 w-6 shrink-0 text-signal sm:h-7 sm:w-7"
+                aria-hidden="true"
+              />
             </a>
+          </Reveal>
 
-            {/* Social Icons Row */}
-            <div className="flex items-center gap-2.5">
-              <a
-                href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn Profile"
-                aria-label="LinkedIn Profile"
-                className="w-11 h-11 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 flex items-center justify-center text-neutral-300 hover:text-white transition-all hover:scale-110 shadow-md"
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
+          <Reveal delay={0.24} className="mt-20 sm:mt-28">
+            <ul className="grid grid-cols-2 border-t border-rule sm:grid-cols-4">
+              {CHANNELS.map(({ label, href }) => (
+                <li key={label} className="border-b border-rule sm:border-b-0">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between py-5 pr-4 text-[14px] font-medium text-bone-dim transition-colors duration-300 hover:text-bone"
+                  >
+                    {label}
+                    <ArrowUpRight className="nudge h-3.5 w-3.5 text-bone-mute" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
 
-              <a
-                href="https://github.com/mani-4444"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="GitHub Profile"
-                aria-label="GitHub Profile"
-                className="w-11 h-11 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 flex items-center justify-center text-neutral-300 hover:text-white transition-all hover:scale-110 shadow-md"
-              >
-                <GithubIcon className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://leetcode.com/Yo7vJoRqBP"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LeetCode Profile"
-                aria-label="LeetCode Profile"
-                className="w-11 h-11 rounded-full border border-white/20 hover:border-white bg-white/5 hover:bg-white/15 flex items-center justify-center text-neutral-300 hover:text-white transition-all hover:scale-110 shadow-md"
-              >
-                <Code2 className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs font-open-sans text-neutral-500 gap-4">
-          <div>
-            &copy; {new Date().getFullYear()} Manideep Munjampally. Built with Next.js, Tailwind, Framer Motion &amp; GSAP.
-          </div>
-          <div className="flex items-center gap-4 font-mono text-[11px] text-neutral-400">
-            <span>CBIT CSE</span>
-            <span>·</span>
-            <span>9.74 CGPA</span>
-            <span>·</span>
-            <span>HYDERABAD</span>
+          <div className="mt-10 flex flex-col justify-between gap-3 text-[12.5px] text-bone-faint sm:flex-row sm:items-center">
+            <span>&copy; {new Date().getFullYear()} Manideep Munjampally</span>
+            <a href="#top" className="link-u self-start text-bone-mute hover:text-bone sm:self-auto">
+              Back to top
+            </a>
           </div>
         </div>
       </div>

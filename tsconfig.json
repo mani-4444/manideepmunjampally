@@ -30,5 +30,11 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "src/components/About.tsx",
+    "src/components/Achievements.tsx",
+    "src/components/Certifications.tsx",
+    "src/components/Skills.tsx"
+  ]
 }

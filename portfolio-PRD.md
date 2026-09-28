@@ -29,6 +29,11 @@ scattered fade-up-on-scroll on every section.
    integrates LLMs. Currently deepening into ML and agentic AI.
 
 3. **Projects** (case-study depth):
+   - **Buy or Wait? — Financial Affordability AI** — Python, Gemini 3.6 Flash, Groq, Pandas, LLM Extraction, Deterministic Simulation.
+     HackerRank Orchestrate · September 2026 · Rank #87 · 67.7/100.
+     A hybrid AI financial agent that determines whether a user can safely afford a purchase.
+     Strict separation: LLM interprets unstructured financial evidence; deterministic systems establish financial reality, run 90-day cash-flow simulation, and make the decision.
+     Link: https://github.com/mani-4444/hackerrank-orchestrate-september26
    - **KrishiCFO — Agricultural Advisory AI** — Python, FastAPI, React, Llama 3.1 (via Groq), Whisper STT, ElevenLabs TTS.
      A 3-agent adversarial AI debate platform giving Indian farmers data-driven crop price advice.
      - Built with team Aurexis-Error-404: an agricultural commodity price advisory platform powered by a 3-agent adversarial AI debate system.
@@ -58,7 +63,7 @@ scattered fade-up-on-scroll on every section.
 5. **Certifications** — Programming with Generative AI, NPTEL (Completed).
    AI & Machine Learning, Apna College (Ongoing).
 
-6. **Achievements** — Rapid hackathon product delivery under tight time constraints (24–36h sprints, KrishiCFO, JARVIS). 200+ DSA problems
+6. **Achievements** — HackerRank Orchestrate (Rank #87 · 67.7/100 · September 2026, Buy or Wait?). Rapid hackathon product delivery under tight time constraints (24–36h sprints, KrishiCFO, JARVIS). 200+ DSA problems
    in C++ (leetcode.com/Yo7vJoRqBP); DP, Game Theory, Divide and Conquer.
 
 7. **Outside of Code** — low-emphasis, near the bottom. Cricket content creation

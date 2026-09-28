@@ -39,7 +39,7 @@ export function SmoothScroll() {
         const targetElement = document.querySelector(href);
         if (targetElement) {
           e.preventDefault();
-          lenis.scrollTo(targetElement as HTMLElement, { offset: -60, duration: 1.2 });
+          lenis.scrollTo(targetElement as HTMLElement, { offset: -24, duration: 1.2 });
         }
       }
     };
