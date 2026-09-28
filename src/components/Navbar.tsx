@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, useScroll } from "framer-motion";
+import { LiquidButton } from "@/components/ui/liquid-glass";
 
 const NAV = [
   { id: "about", label: "Background" },
@@ -96,12 +97,12 @@ export function Navbar() {
 
         {/* Below sm there isn't room for four sections plus an action, and
             the nav matters more — the hero and footer both carry this CTA. */}
-        <a
+        <LiquidButton
           href="#contact"
-          className="btn btn-ghost hidden shrink-0 sm:inline-flex sm:!px-5 sm:!py-2.5 sm:!text-[12.5px]"
+          className="hidden shrink-0 px-5 py-2.5 text-[12.5px] sm:inline-flex"
         >
           Get in touch
-        </a>
+        </LiquidButton>
       </div>
 
       {/* Read position. A measuring edge for the whole document. */}

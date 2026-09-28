@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { ArrowUpRight, FileText } from "lucide-react";
+import { LiquidButton } from "@/components/ui/liquid-glass";
 
 /* His stack, read as one continuous line rather than twenty scattered
    badges. Duplicated once in the markup so the loop is seamless. */
@@ -102,38 +103,27 @@ export function Hero() {
               className="rise mt-9 flex flex-wrap items-center gap-2.5"
               style={{ animationDelay: "780ms" }}
             >
-              <a href="#projects" className="btn btn-signal">
+              <LiquidButton href="#projects" tone="signal">
                 See the work
-              </a>
+              </LiquidButton>
               {/* Serves /public/resume.pdf — the one artefact a recruiter
                   cannot run a hiring process without. */}
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost"
-              >
+              <LiquidButton href="/resume.pdf" target="_blank" rel="noopener noreferrer">
                 <FileText className="h-3.5 w-3.5" aria-hidden="true" />
                 Resume
-              </a>
-              <a
-                href="https://github.com/mani-4444"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost"
-              >
+              </LiquidButton>
+              <LiquidButton href="https://github.com/mani-4444" target="_blank" rel="noopener noreferrer">
                 GitHub
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </a>
-              <a
+              </LiquidButton>
+              <LiquidButton
                 href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-ghost"
               >
                 LinkedIn
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </a>
+              </LiquidButton>
             </div>
           </div>
 

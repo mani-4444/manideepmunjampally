@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { Reveal } from "@/components/ui/scroll-text";
+import { LiquidGlassCard, LiquidButton } from "@/components/ui/liquid-glass";
 
 export type CaseStudyData = {
   id: string;
@@ -71,16 +72,16 @@ export function CaseStudy({
                 </div>
               </div>
 
-              <a
+              <LiquidButton
                 href={data.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-ghost shrink-0 self-start"
+                className="shrink-0 self-start"
               >
                 <LinkIcon className="h-4 w-4" aria-hidden="true" />
                 {data.linkKind === "repo" ? "View repo" : "Open live app"}
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-              </a>
+              </LiquidButton>
             </div>
 
             {/* ── Pull quote ─────────────────────────────────────── */}
@@ -151,7 +152,7 @@ export function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <div className="panel bracket p-5 sm:p-6">
+    <LiquidGlassCard glassSize="sm" className="sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-rule pb-3">
         <span className="h-block !text-[13px] text-bone">{title}</span>
         {badge ? (
@@ -163,7 +164,7 @@ export function Panel({
         ) : null}
       </div>
       <div className="mt-5 space-y-5">{children}</div>
-    </div>
+    </LiquidGlassCard>
   );
 }
 

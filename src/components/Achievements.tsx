@@ -1,5 +1,6 @@
 import { ArrowUpRight, Code2, Trophy } from "lucide-react";
 import { Section, SectionTitle } from "@/components/ui/section";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
 import { OrchestrateFunnel } from "@/components/ui/OrchestrateFunnel";
 
 export function Achievements() {
@@ -9,7 +10,7 @@ export function Achievements() {
 
       {/* The Orchestrate result is the strongest single credential here, so it
           gets its own band rather than being one of three equal cards. */}
-      <div className="panel bracket mt-12 border-signal/30 p-7 sm:p-9">
+      <LiquidGlassCard glassSize="lg" className="mt-12 border-signal/30 sm:p-9">
         <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-start gap-3">
             <Trophy className="mt-0.5 h-5 w-5 shrink-0 text-signal" aria-hidden="true" />
@@ -34,10 +35,10 @@ export function Achievements() {
           An AI-powered affordability agent combining LLM-based evidence
           extraction with deterministic financial reasoning.
         </p>
-      </div>
+      </LiquidGlassCard>
 
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div className="panel flex flex-col gap-6 p-7">
+        <LiquidGlassCard glassSize="lg" className="flex flex-col gap-6">
           <div className="flex items-start justify-between gap-3">
             <Trophy className="h-5 w-5 text-bone-mute" aria-hidden="true" />
             <span className="field-key">Multi-hackathon</span>
@@ -59,9 +60,9 @@ export function Achievements() {
               <span key={t} className="cell">{t}</span>
             ))}
           </div>
-        </div>
+        </LiquidGlassCard>
 
-        <div className="panel flex flex-col gap-6 p-7">
+        <LiquidGlassCard glassSize="lg" className="flex flex-col gap-6">
           <div className="flex items-start justify-between gap-3">
             <Code2 className="h-5 w-5 text-bone-mute" aria-hidden="true" />
             <a
@@ -89,7 +90,7 @@ export function Achievements() {
               <span key={t} className="cell">{t}</span>
             ))}
           </div>
-        </div>
+        </LiquidGlassCard>
       </div>
     </Section>
   );

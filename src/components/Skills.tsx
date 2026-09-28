@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import { SplineScene } from "@/components/ui/splite";
 import { SectionTitle } from "@/components/ui/section";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
 
 /** Rendered as a solid signal chip wherever they appear, so the tools he
  *  actually builds with lead rather than trailing the model names. */
@@ -63,9 +64,10 @@ export function Skills() {
             <div className="relative mt-10 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-6">
               <div className="order-2 grid grid-cols-1 items-start gap-3 sm:grid-cols-2 lg:order-1 lg:content-start">
                 {GROUPS.map((group) => (
-                  <div
+                  <LiquidGlassCard
                     key={group.key}
-                    className={`panel p-5 ${group.signal ? "border-signal/30" : ""}`}
+                    glassSize="sm"
+                    className={group.signal ? "border-signal/30 p-5" : "p-5"}
                   >
                     <div className="flex items-center justify-between border-b border-rule pb-2.5">
                       <span
@@ -90,7 +92,7 @@ export function Skills() {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </LiquidGlassCard>
                 ))}
               </div>
 

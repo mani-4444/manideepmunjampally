@@ -1,4 +1,5 @@
 import { Code2, FileText, Mail } from "lucide-react";
+import { LiquidButton } from "@/components/ui/liquid-glass";
 import { GithubIcon } from "@/components/icons/GithubIcon";
 import { LinkedinIcon } from "@/components/icons/SocialIcons";
 
@@ -30,13 +31,14 @@ export function Footer() {
               architecture, latency, and code.
             </p>
 
-            <a
+            <LiquidButton
               href="mailto:manideepmunjampally4@gmail.com"
-              className="btn btn-signal mt-8"
+              tone="signal"
+              className="mt-8"
             >
               <Mail className="h-4 w-4" aria-hidden="true" />
               Email Manideep
-            </a>
+            </LiquidButton>
           </div>
 
           <div className="flex gap-3 lg:flex-col lg:items-end">

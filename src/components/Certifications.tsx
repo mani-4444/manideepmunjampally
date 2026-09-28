@@ -1,4 +1,5 @@
 import { Section, SectionTitle } from "@/components/ui/section";
+import { LiquidGlassCard } from "@/components/ui/liquid-glass";
 
 const CERTIFICATIONS = [
   {
@@ -24,7 +25,7 @@ export function Certifications() {
         {CERTIFICATIONS.map((cert) => {
           const done = cert.status === "Completed";
           return (
-            <div key={cert.title} className="panel flex flex-col gap-4 p-6">
+            <LiquidGlassCard key={cert.title} className="flex flex-col gap-4">
               <div className="flex items-center justify-between gap-3">
                 <span className="field-key">{cert.issuer}</span>
                 <span
@@ -41,7 +42,7 @@ export function Certifications() {
 
               <h3 className="h-block text-bone">{cert.title}</h3>
               <p className="body-copy">{cert.body}</p>
-            </div>
+            </LiquidGlassCard>
           );
         })}
       </div>
