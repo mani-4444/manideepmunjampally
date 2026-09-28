@@ -29,28 +29,33 @@ export function OutsideOfCode() {
       intro="A cricket channel I create, host, and edit myself in Premiere Pro and After Effects."
       split
     >
-      <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {CHANNELS.map(({ value, label, href, Icon }, i) => (
-          <Reveal as="li" key={label} delay={0.08 * i}>
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="surface surface-hover group flex h-full flex-col p-6 sm:p-8"
-            >
-              <span className="flex items-center justify-between text-bone-mute">
-                <Icon className="h-4 w-4" />
-                <ArrowUpRight
-                  className="nudge h-4 w-4 transition-colors duration-300 group-hover:text-bone"
-                  aria-hidden="true"
-                />
-              </span>
-              <span className="figure mt-10 text-[3.4rem] text-bone sm:text-[4rem]">{value}</span>
-              <span className="mt-2 text-[14px] text-bone-dim">{label}</span>
-            </a>
-          </Reveal>
-        ))}
-      </ul>
+      <div className="relative">
+        {/* Light for the glass to refract */}
+        <div aria-hidden="true" className="pool -left-8 top-1/4 h-48 w-1/2" />
+        <div aria-hidden="true" className="pool pool-bone -right-8 bottom-0 h-40 w-1/2" />
+        <ul className="relative grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {CHANNELS.map(({ value, label, href, Icon }, i) => (
+            <Reveal as="li" key={label} delay={0.08 * i}>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="surface surface-hover group flex h-full flex-col p-6 sm:p-8"
+              >
+                <span className="flex items-center justify-between text-bone-mute">
+                  <Icon className="h-4 w-4" />
+                  <ArrowUpRight
+                    className="nudge h-4 w-4 transition-colors duration-300 group-hover:text-bone"
+                    aria-hidden="true"
+                  />
+                </span>
+                <span className="figure mt-10 text-[3.4rem] text-bone sm:text-[4rem]">{value}</span>
+                <span className="mt-2 text-[14px] text-bone-dim">{label}</span>
+              </a>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
     </Section>
   );
 }

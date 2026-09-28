@@ -95,9 +95,14 @@ export function CaseStudy({
           </ul>
         </Reveal>
 
-        <Reveal delay={0.14} className="min-w-0">
-          {children}
-        </Reveal>
+        <div className="relative min-w-0">
+          {/* Light for the panel glass to refract */}
+          <div aria-hidden="true" className="pool -right-6 -top-6 h-48 w-2/3 opacity-70" />
+          <div aria-hidden="true" className="pool pool-bone -left-6 bottom-10 h-40 w-1/2" />
+          <Reveal delay={0.14} className="relative">
+            {children}
+          </Reveal>
+        </div>
       </div>
     </article>
   );
@@ -149,7 +154,7 @@ export function Tabs<T extends string>({
       <div
         role="tablist"
         aria-label={label}
-        className="mt-2.5 grid gap-1 rounded-xl border border-rule bg-ink p-1"
+        className="glass-inset mt-2.5 grid gap-1 rounded-xl p-1"
         style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}
       >
         {options.map((opt) => {
@@ -169,7 +174,7 @@ export function Tabs<T extends string>({
                 <motion.span
                   layoutId={`tab-${id}`}
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-lg bg-bone"
+                  className="absolute inset-0 rounded-lg bg-bone shadow-[var(--glass-rim)]"
                   transition={
                     reduceMotion ? { duration: 0 } : { type: "spring", stiffness: 420, damping: 36 }
                   }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Newsreader, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { GlassFilters } from "@/components/ui/glass-filters";
 
 /* Display and headings. Variable, with the optical-size axis loaded so
    large settings draw with finer strokes automatically. */
@@ -77,6 +78,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-ink text-bone antialiased">
         <SmoothScroll />
+        <GlassFilters />
         {children}
       </body>
     </html>
