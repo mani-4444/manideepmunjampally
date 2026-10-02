@@ -43,7 +43,9 @@ export function Section({
   );
 
   return (
-    <section id={id} className={cn("relative", className)}>
+    // overflow-x: clip keeps the light pools from widening the page, and
+    // unlike overflow: hidden it does not break the sticky headers inside.
+    <section id={id} className={cn("relative overflow-x-clip", className)}>
       <div className="shell">
         <div className="border-t border-rule py-20 sm:py-24 lg:py-32">
           {split ? (

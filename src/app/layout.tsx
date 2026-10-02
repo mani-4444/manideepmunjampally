@@ -29,7 +29,7 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const TITLE = "Manideep Munjampally — Software Engineer, Full-Stack & Applied AI";
+const TITLE = "Manideep Munjampally — AI Systems Engineer & Full-Stack Developer";
 const DESCRIPTION =
   "Computer science undergrad at CBIT Hyderabad building full-stack products and generative-AI systems. #93 of 3,062 at HackerRank Orchestrate. Open to internships.";
 
