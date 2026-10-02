@@ -17,7 +17,7 @@ import { ImageResponse } from "next/og";
  */
 
 export const alt =
-  "Manideep Munjampally — full-stack developer building generative-AI systems";
+  "Manideep Munjampally — AI Systems Engineer & Full-Stack Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -84,7 +84,7 @@ export default function Image() {
           </div>
 
           <div style={{ display: "flex", color: BONE_DIM, fontSize: 30, marginTop: 28 }}>
-            Full-stack developer building generative-AI systems
+            AI Systems Engineer &amp; Full-Stack Developer
           </div>
         </div>
 

@@ -32,24 +32,58 @@ export function Hero() {
       <div className="shell relative pb-20 pt-12 sm:pt-16 lg:pb-28 lg:pt-20">
         <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-[minmax(0,1fr)_260px] lg:gap-16 xl:grid-cols-[minmax(0,1fr)_290px]">
           <div className="min-w-0">
-            <div className="rise flex items-center gap-3" style={d(0.05)}>
-              <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full lg:hidden">
+            {/* Below desktop the large portrait column is gone, so the photo
+                joins this identity row at a size that still reads as a face,
+                with location and profile links beside it. */}
+            <div className="rise flex items-center gap-4 sm:gap-5" style={d(0.05)}>
+              <div className="relative aspect-[4/5] w-[100px] shrink-0 overflow-hidden rounded-2xl sm:w-[120px] lg:hidden">
                 <Image
                   src="/images/manideep.png"
-                  alt=""
+                  alt="Manideep Munjampally"
                   fill
-                  sizes="40px"
+                  priority
+                  sizes="120px"
                   className="object-cover object-top grayscale"
                 />
-                <span aria-hidden="true" className="absolute inset-0 rounded-full shadow-[var(--glass-rim)]" />
-              </span>
-              <span className="glass inline-flex items-center gap-2.5 !rounded-full py-1.5 pl-3 pr-3.5 text-[13px] font-medium text-bone-dim">
-                <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
-                  <span className="ping absolute inset-0 rounded-full bg-signal" />
-                  <span className="relative h-1.5 w-1.5 rounded-full bg-signal" />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[var(--glass-rim)]"
+                />
+              </div>
+
+              <div className="flex min-w-0 flex-col items-start gap-2.5">
+                <span className="glass inline-flex items-center gap-2.5 !rounded-full py-1.5 pl-3 pr-3.5 text-[13px] font-medium text-bone-dim">
+                  <span className="relative flex h-1.5 w-1.5" aria-hidden="true">
+                    <span className="ping absolute inset-0 rounded-full bg-signal" />
+                    <span className="relative h-1.5 w-1.5 rounded-full bg-signal" />
+                  </span>
+                  Open to internships
+                  <span className="hidden sm:inline">· Class of 2028</span>
                 </span>
-                Open to internships · Class of 2028
-              </span>
+                <span className="text-[12.5px] text-bone-mute sm:hidden">
+                  Class of 2028 · Hyderabad, India
+                </span>
+                <div className="flex gap-2 sm:hidden">
+                  <a
+                    href="https://github.com/mani-4444"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    className="btn btn-secondary btn-sm w-9 !px-0"
+                  >
+                    <GithubIcon className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/manideep-munjampally-771254386/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="btn btn-secondary btn-sm w-9 !px-0"
+                  >
+                    <LinkedinIcon className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              </div>
             </div>
 
             <h1 className="h-display mt-8 text-bone sm:mt-10">
@@ -65,7 +99,21 @@ export function Hero() {
               </span>
             </h1>
 
-            <p className="rise lede mt-8 max-w-[38ch] sm:mt-10" style={d(0.5)}>
+            {/* The role, read straight after the name. AI leads, in the accent. */}
+            <p className="mt-5 font-serif text-[clamp(1.45rem,3.1vw,2.5rem)] italic leading-[1.15] tracking-[-0.02em] sm:mt-6">
+              <span className="line-mask">
+                <span className="line-rise" style={d(0.4)}>
+                  {/* Each title stays whole when the line wraps on phones */}
+                  <span className="whitespace-nowrap text-signal">AI Systems Engineer</span>{" "}
+                  <span className="whitespace-nowrap">
+                    <span className="text-bone-mute">&amp;</span>{" "}
+                    <span className="text-bone">Full-Stack Developer</span>
+                  </span>
+                </span>
+              </span>
+            </p>
+
+            <p className="rise lede mt-7 max-w-[38ch] sm:mt-8" style={d(0.55)}>
               I&rsquo;m a computer science undergrad at CBIT who{" "}
               <span className="text-bone">ships production software</span>, and
               I&rsquo;m going deeper into{" "}
@@ -73,7 +121,7 @@ export function Hero() {
             </p>
 
             <div className="rise mt-9 flex flex-wrap items-center gap-2.5" style={d(0.62)}>
-              <a href="#work" className="btn btn-primary group">
+              <a href="#work" className="btn btn-primary group flex-1 sm:flex-none">
                 See the work
                 <ArrowDown className="nudge nudge-down h-4 w-4" aria-hidden="true" />
               </a>
@@ -81,18 +129,19 @@ export function Hero() {
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-secondary group"
+                className="btn btn-secondary group flex-1 sm:flex-none"
               >
                 Resume
                 <ArrowUpRight className="nudge h-4 w-4" aria-hidden="true" />
               </a>
-                            <span className="mx-1 hidden h-5 w-px bg-rule-strong sm:block" aria-hidden="true" />
+              {/* On phones these two move up beside the photo */}
+              <span className="mx-1 hidden h-5 w-px bg-rule-strong sm:block" aria-hidden="true" />
               <a
                 href="https://github.com/mani-4444"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="btn btn-secondary w-11 !px-0"
+                className="btn btn-secondary hidden w-11 !px-0 sm:inline-flex"
               >
                 <GithubIcon className="h-[18px] w-[18px]" />
               </a>
@@ -101,7 +150,7 @@ export function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="btn btn-secondary w-11 !px-0"
+                className="btn btn-secondary hidden w-11 !px-0 sm:inline-flex"
               >
                 <LinkedinIcon className="h-4 w-4" />
               </a>
@@ -147,21 +196,21 @@ export function Hero() {
             {PROOF.map((item, i) => (
               <div
                 key={item.key}
-                className={`flex flex-col border-rule p-5 sm:p-7 ${i % 2 === 0 ? "border-r" : ""} ${
+                className={`flex flex-col border-rule p-4 sm:p-7 ${i % 2 === 0 ? "border-r" : ""} ${
                   i < 2 ? "border-b lg:border-b-0" : ""
                 } ${i < 3 ? "lg:border-r" : ""}`}
               >
                 <dt className="field-key">{item.key}</dt>
-                <dd className="mt-4 flex items-baseline gap-1.5">
+                <dd className="mt-4 flex items-baseline gap-1.5 whitespace-nowrap">
                   <span
-                    className={`figure text-[2.6rem] sm:text-[3.1rem] ${
+                    className={`figure text-[2.15rem] sm:text-[3.1rem] ${
                       item.accent ? "text-signal" : "text-bone"
                     }`}
                   >
                     {item.value}
                   </span>
                   {item.unit ? (
-                    <span className="figure text-lg text-bone-mute sm:text-xl">{item.unit}</span>
+                    <span className="figure text-base text-bone-mute sm:text-xl">{item.unit}</span>
                   ) : null}
                 </dd>
                 <dd className="mt-2 text-[13px] leading-snug text-bone-mute">{item.note}</dd>

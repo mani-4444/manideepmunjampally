@@ -18,32 +18,23 @@ import { cn } from "@/lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+/* One set of variants for everyone. The hidden state must be identical on
+   the server and on the client's first render, or React reports a
+   hydration mismatch — and the server cannot know a visitor's motion
+   preference. So reduced motion changes only how "visible" is reached
+   (instantly), never the starting state. */
 const variants: Variants = {
   hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
-  visible: (delay: number) => ({
+  visible: ({ delay, instant }: { delay: number; instant: boolean }) => ({
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.9, ease: EASE, delay },
+    transition: instant ? { duration: 0 } : { duration: 0.9, ease: EASE, delay },
     // A leftover blur(0px) is still a filter, which makes this element a
     // backdrop root: any liquid glass inside it would refract an empty
     // layer instead of the page. Clear it once the reveal settles.
     transitionEnd: { filter: "none" },
   }),
-};
-
-/* Must name every property the hidden state sets. The server renders the
-   hidden state before the client knows about reduced motion; if these only
-   set opacity, the SSR blur and offset are never cleared. */
-const still: Variants = {
-  hidden: { opacity: 1, y: 0, filter: "blur(0px)" },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0 },
-    transitionEnd: { filter: "none" },
-  },
 };
 
 /** True once the element has touched the viewport. Every failure path reveals. */
@@ -126,10 +117,10 @@ export function Reveal({
         ref.current = el;
       }}
       className={cn("reveal-guard", className)}
-      custom={delay}
+      custom={{ delay, instant: Boolean(reduceMotion) }}
       initial="hidden"
       animate={revealed ? "visible" : "hidden"}
-      variants={reduceMotion ? still : variants}
+      variants={variants}
     >
       {children}
     </MotionTag>

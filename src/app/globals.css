@@ -61,15 +61,22 @@
    Base
    ------------------------------------------------------------ */
 
+/* Horizontal overflow is clipped here, on the root, rather than on body.
+   Phone browsers do not reliably honour it on body: anything poking past
+   the edge (the light pools behind the glass) widened the page, so it
+   loaded slightly zoomed and could be dragged sideways. Setting it on body
+   as well would turn body into its own scroll container and break the
+   sticky headers, so body is left alone. */
 html {
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: #000000;
   color: #EDEAE3;
-  overflow-x: hidden;
   font-synthesis-weight: none;
   text-rendering: optimizeLegibility;
 }
@@ -434,6 +441,21 @@ footer[id] {
 
 .ping {
   animation: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Phones and tablets: keep the glass rim and a clean frost, drop the
+   displacement. On a small screen the nav sits over body text as it
+   scrolls, and refraction at that scale smears it into noise; it is also
+   the costliest effect on the page for a mobile GPU. */
+@media (max-width: 1023px) {
+  .surface::before,
+  .glass::before {
+    backdrop-filter: blur(14px) saturate(150%);
+  }
+
+  .btn-secondary::before {
+    backdrop-filter: blur(10px);
+  }
 }
 
 /* Light pools: soft colour for the glass to refract. Placed behind
